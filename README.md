@@ -2,4 +2,4 @@
 
 Database:
 
-PostgreSQL
+PostgreSQL and PostGIS
