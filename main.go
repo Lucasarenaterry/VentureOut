@@ -25,11 +25,11 @@ func main() {
 	r.Static("/static", "static")
 
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{"navtitle": "VentureOut."})
+		c.HTML(http.StatusOK, "index.html", gin.H{"navtitle": "VentureOut"})
 	})
 
 	r.GET("/home", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{"navtitle": "VentureOut."})
+		c.HTML(http.StatusOK, "index.html", gin.H{"navtitle": "VentureOut"})
 	})
 
 	r.Run(":8080") // listen and serve on 0.0.0.0:8080
