@@ -6,6 +6,9 @@ import (
 	"log"
 	"net/http"
 	"github.com/gin-gonic/gin"
+
+	"database/sql"
+	_ "github.com/lib/pq"
 )
 
 type event struct {
@@ -21,6 +24,11 @@ func main() {
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	} 
+
+	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Fatalf("Error opening database: %q", err)
+	}
 	
 	r := gin.New()
 	r.Use(gin.Logger())
