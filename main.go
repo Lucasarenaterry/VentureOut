@@ -2,9 +2,9 @@ package main
 
 import (
 	//"fmt"
-
+	"os"
+	"log"
 	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,7 +17,11 @@ type event struct {
 }
 
 func main() {
-
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	} 
+	
 	r := gin.New()
 	r.Use(gin.Logger())
 	r.Static("/css", "./static/css")
@@ -32,5 +36,5 @@ func main() {
 		c.HTML(http.StatusOK, "index.html", gin.H{"navtitle": "VentureOut"})
 	})
 
-	r.Run(":8080") // listen and serve on 0.0.0.0:8080
+	r.Run(":" + port) // listen and serve on 0.0.0.0:5000
 }
