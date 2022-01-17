@@ -2,12 +2,15 @@ package main
 
 import (
 	//"fmt"
-	"os"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
+
 	"github.com/gin-gonic/gin"
 
 	"database/sql"
+
 	_ "github.com/lib/pq"
 )
 
@@ -42,6 +45,18 @@ func main() {
 
 	r.GET("/home", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{"navtitle": "VentureOut"})
+	})
+
+	r.GET("/map", func(c *gin.Context) {
+		if _, err := db.Exec("CREAT TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtitle varchar(45) NOT NULL)");
+			err != nil {
+		c.String(http.StatusInternalServerError,
+				fmt.Sprintf("Error creating database table: %q", err))
+			return
+			}
+
+
+		c.HTML(http.StatusOK, "map.html", gin.H{"navtitle": "VentureOut"})
 	})
 
 	r.Run(":" + port) // listen and serve on 0.0.0.0:5000
