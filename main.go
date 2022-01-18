@@ -2,14 +2,14 @@ package main
 
 import (
 	//"fmt"
-	"fmt"
+
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
 
-	"database/sql"
+	//"database/sql"
 
 	_ "github.com/lib/pq"
 )
@@ -28,16 +28,17 @@ func main() {
 		log.Fatal("$PORT must be set")
 	} 
 
-	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
-	if err != nil {
-		log.Fatalf("Error opening database: %q", err)
-	}
+	//db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	//if err != nil {
+		//log.Fatalf("Error opening database: %q", err)
+	//}
 	
 	r := gin.New()
 	r.Use(gin.Logger())
 	r.Static("/css", "./static/css")
 	r.LoadHTMLGlob("static/templates/*.html")
 	r.Static("/static", "static")
+	r.Static("/js", "./static/js")
 
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{"navtitle": "VentureOut"})
@@ -48,12 +49,12 @@ func main() {
 	})
 
 	r.GET("/map", func(c *gin.Context) {
-		if _, err := db.Exec("CREAT TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtitle varchar(45) NOT NULL)");
-			err != nil {
-		c.String(http.StatusInternalServerError,
-				fmt.Sprintf("Error creating database table: %q", err))
-			return
-			}
+		//if _, err := db.Exec("CREAT TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtitle varchar(45) NOT NULL)");
+			//err != nil {
+		//c.String(http.StatusInternalServerError,
+				//fmt.Sprintf("Error creating database table: %q", err))
+			//return
+			//}
 
 
 		c.HTML(http.StatusOK, "map.html", gin.H{"navtitle": "VentureOut"})
