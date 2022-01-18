@@ -1,5 +1,10 @@
 #map{
-    height: 600px;
     width:100%;
+    height: 696px;
+}
+
+#container{
+    display: flex;
+    justify-content: center;
 }
 
