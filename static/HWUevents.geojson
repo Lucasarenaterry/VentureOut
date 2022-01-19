@@ -1,0 +1,33 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "Id": "1",
+          "Description": "LANDSCAPE TRAIL"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -3.321578,
+            55.910807
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "Id": "2",
+          "Description": "BIRD TRAIL"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -3.322495,
+            55.909010
+          ]
+        }
+      }
+    ]
+    }

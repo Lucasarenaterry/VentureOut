@@ -15,12 +15,14 @@
         function initMap(){
             var options = {
                 center: { lat: 55.909769499991654, lng: -3.3205147727103452 },
-                zoom: 18,
+                zoom: 16,
                 mapTypeId: 'satellite',
             }
 
             var map = new google.maps.Map(document.getElementById('map'), options);
-        }
+            
+            map.data.loadGeoJson('static/HWUevents.geojson');
+        } 
     </script>
 
     <script async 
