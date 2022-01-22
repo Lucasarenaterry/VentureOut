@@ -8,11 +8,16 @@
     {{template "scripts.html"}}
   <script>
   
+    getuserlocation();
+
     const errorCallback = (error) => {
       console.error(error);
     };
 
-    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    function getuserlocation(){
+      navigator.geolocation.getCurrentPosition(errorCallback);
+      setTimeout(getuserlocation, 2000);
+    };
 
   </script>
 
