@@ -5,6 +5,7 @@
 
   <body>
     {{template "navbar.html"}}
+    {{template "infomodal.html"}}
     <div id="container">
     <div id="map"></div>
     </div>
@@ -25,11 +26,7 @@
         } 
 
         map.data.addListener('click', function (event) {
-                var tree_id = event.feature.getProperty('Id');
-                var tree_name = event.feature.getProperty('CommonName');
-                $('#tree_title').html(tree_id + ": " + tree_name);
-                $('#tree_img').attr("src", tree_img);
-                $('#myModal').modal('show');
+                $('#infomodal').modal('show');
             });
 
     </script>
