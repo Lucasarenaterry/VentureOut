@@ -23,11 +23,15 @@
             var map = new google.maps.Map(document.getElementById('map'), options);
             
             map.data.loadGeoJson('static/HWUevents.geojson');
-        } 
 
-        map.data.addListener('click', function (event) {
+            map.data.addListener('click', function (event) {
+                var event_title = event.feature.getProperty('Description');
+                $('#event_title').html(event_title);
                 $('#infomodal').modal('show');
             });
+        } 
+
+    
 
     </script>
 
