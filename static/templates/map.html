@@ -23,6 +23,15 @@
             
             map.data.loadGeoJson('static/HWUevents.geojson');
         } 
+
+        map.data.addListener('click', function (event) {
+                var tree_id = event.feature.getProperty('Id');
+                var tree_name = event.feature.getProperty('CommonName');
+                $('#tree_title').html(tree_id + ": " + tree_name);
+                $('#tree_img').attr("src", tree_img);
+                $('#myModal').modal('show');
+            });
+
     </script>
 
     <script async 

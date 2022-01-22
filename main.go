@@ -41,11 +41,11 @@ func main() {
 	r.Static("/js", "./static/js")
 
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{"navtitle": "VentureOut"})
+		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
 
 	r.GET("/home", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{"navtitle": "VentureOut"})
+		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
 
 	r.GET("/map", func(c *gin.Context) {
@@ -57,7 +57,7 @@ func main() {
 			//}
 
 
-		c.HTML(http.StatusOK, "map.html", gin.H{"navtitle": "VentureOut"})
+		c.HTML(http.StatusOK, "map.html", gin.H{})
 	})
 
 	r.Run(":" + port) // listen and serve on 0.0.0.0:5000
