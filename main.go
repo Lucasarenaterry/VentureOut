@@ -46,7 +46,7 @@ func main() {
 	})
 
 	r.GET("/home", func(c *gin.Context) {
-		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS Events (id SERIAL PRIMARY KEY, eventitle varchar(45) NOT NULL, eventype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT, 4326), eventdate DATE, eventtime TIME)"); 
+		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS Events (id SERIAL PRIMARY KEY, eventitle varchar(45) NOT NULL, eventype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
 					err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error creating database table: %q", err))
