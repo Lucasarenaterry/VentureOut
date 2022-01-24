@@ -55,6 +55,9 @@ func main() {
 		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
 
+	//INSERT INTO events (id, eventitle, eventype, description, image, location, eventdate)
+	//VALUES (1, 'LANDSCAPE TRAIL', 'Walk', 'walk around campus visiting the main landcapes', 'landscape.png', 'SRID=4326;POINT(-3.321578 55.910807)', '2022/01/23');
+
 	r.GET("/map", func(c *gin.Context) {
 			// if _, err := db.Exec("CREATE TABLE IF NOT EXISTS Events ticks (tick timestamp)"); 
 			// 		err != nil {
