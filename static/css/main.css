@@ -11,3 +11,16 @@
 html {
     overflow-y: scroll;
   }
+
+@media (max-width: 961px) {
+    .hidedesktopnav {
+        display: none !important;
+    }
+}
+
+@media (min-width: 961px) {
+    .hidemobilenav {
+        display: none !important;
+    }
+}
+  
