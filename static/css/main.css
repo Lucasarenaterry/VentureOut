@@ -8,3 +8,6 @@
     justify-content: center;
 }
 
+html {
+    overflow-y: scroll;
+  }
