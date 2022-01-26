@@ -21,11 +21,11 @@ html {
     }
 } */
 
-@media screen and (max-width: 961px) {
+/* @media screen and (max-width: 961px) {
     .hidedesktopnav {
         display: none !important;
     }
-}
+} */
   
 footer {
     position: fixed !important;
