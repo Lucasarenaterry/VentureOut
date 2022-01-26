@@ -12,20 +12,17 @@ html {
     overflow-y: scroll;
   }
 
-/* @media screen and (min-width: 961px) {
+@media screen and (max-width: 961px) {
     .hidedesktopnav {
         display: none !important;
     }
-    .hidemobilenav {
-        display: block !important;
-    }
-} */
+} 
 
-/* @media screen and (max-width: 961px) {
-    .hidedesktopnav {
+@media screen and (min-width: 962px) {
+    .hidemobilenav {
         display: none !important;
     }
-} */
+} 
   
 footer{
     position: fixed !important;
