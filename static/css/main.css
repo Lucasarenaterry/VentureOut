@@ -16,11 +16,17 @@ html {
     .hidedesktopnav {
         display: none !important;
     }
+    .hidemobilenav {
+        display: block !important;
+    }
 }
 
 @media (min-width: 961px) {
     .hidemobilenav {
         display: none !important;
+    }
+    .hidedesktopnav {
+        display: block !important;
     }
 }
   
