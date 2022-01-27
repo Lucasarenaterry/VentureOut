@@ -28,9 +28,11 @@
             map.data.addListener('click', function (event) {
                 var event_title = event.feature.getProperty('eventtittel');
                 var image = event.feature.getProperty('image');
+                var description = event.feature.getProperty('description');
 
                 $('#event_title').html(event_title);
                 $('#image').attr("src", image);
+                $('#description').html(description);
                 $('#infomodal').modal('show');
             });
         } 
