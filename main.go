@@ -93,7 +93,13 @@ func main() {
 			c.HTML(http.StatusOK, "map.html", gin.H{})
 		})
 
-		
+		r.GET("/addevent", func(c *gin.Context) {
+			c.HTML(http.StatusOK, "addevent.html", gin.H{})
+		})
+
+		r.GET("/settings", func(c *gin.Context) {
+			c.HTML(http.StatusOK, "settings.html", gin.H{})
+		})
 	
 
 	r.Run(":" + port) // listen and serve on 0.0.0.0:5000

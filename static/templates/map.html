@@ -5,10 +5,11 @@
 
   <body>
     {{template "navbar.html"}}
-    {{template "infomodal.html"}}
-    <div id="container">
+   
     <div id="map"></div>
-    </div>
+
+    {{template "navbarmobile.html"}}
+    {{template "infomodal.html"}}
     {{template "scripts.html"}}
     <script>
         let map;
