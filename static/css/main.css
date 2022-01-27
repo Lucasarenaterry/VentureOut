@@ -3,26 +3,26 @@
     height: 696px;
 }
 
-#container{
+/* #container{
     display: flex;
     justify-content: center;
-}
+} */
 
 html {
     overflow-y: scroll;
   }
 
-@media screen and (max-width: 992px) {
+  @media (max-width: 992px) {
     .hidedesktopnav {
-        display: none !important;
+      display: none !important;
     }
-} 
-
-@media screen and (min-width: 992px) {
-    .hidemobilenav {
+  }
+  
+    @media (min-width: 992px) {
+      .hidemobilenav {
         display: none !important;
+      }
     }
-} 
   
 footer{
     position: fixed !important;
