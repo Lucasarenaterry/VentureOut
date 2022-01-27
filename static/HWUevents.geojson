@@ -5,7 +5,11 @@
         "type": "Feature",
         "properties": {
           "Id": "1",
-          "Description": "LANDSCAPE TRAIL"
+          "eventtittel": "LANDSCAPE TRAIL",
+          "eventtype":"Walk",
+          "description":"walk around campus visiting the main landscapes",
+          "image":"static/img/landscape.png",
+          "date":"2022/01/23"
         },
         "geometry": {
           "type": "Point",
@@ -19,7 +23,11 @@
         "type": "Feature",
         "properties": {
           "Id": "2",
-          "Description": "BIRD TRAIL"
+          "eventtittel": "BIRD TRAIL",
+          "eventtype":"Walk",
+          "description":"walk around campus to look at birds",
+          "image":"",
+          "date":"2022/01/23"
         },
         "geometry": {
           "type": "Point",

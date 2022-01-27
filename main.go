@@ -100,6 +100,10 @@ func main() {
 		r.GET("/settings", func(c *gin.Context) {
 			c.HTML(http.StatusOK, "settings.html", gin.H{})
 		})
+
+		r.GET("/scan", func(c *gin.Context) {
+			c.HTML(http.StatusOK, "scan.html", gin.H{})
+		})
 	
 
 	r.Run(":" + port) // listen and serve on 0.0.0.0:5000

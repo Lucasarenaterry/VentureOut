@@ -26,8 +26,11 @@
             map.data.loadGeoJson('static/HWUevents.geojson');
 
             map.data.addListener('click', function (event) {
-                var event_title = event.feature.getProperty('Description');
+                var event_title = event.feature.getProperty('eventtittel');
+                var image = event.feature.getProperty('image');
+
                 $('#event_title').html(event_title);
+                $('#image').attr("src", image);
                 $('#infomodal').modal('show');
             });
         } 
