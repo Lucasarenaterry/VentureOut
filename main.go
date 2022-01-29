@@ -13,15 +13,17 @@ import (
 	"database/sql"
 
 	_ "github.com/lib/pq"
+	_ "github.com/go-sql-driver/mysql"
 )
 
-// type event struct {
-// 	id          int `json:"id"`
-// 	name        string `json:"name"`
-// 	eventtype   string `json:"eventtype"`
-// 	description string `json:"description"`
-// 	img         string `json:"img"`
-// }
+type event struct {
+	id          int `json:"Id"`
+	eventtittel string `json:"eventtittel"`
+	eventtype   string `json:"eventtype"`
+	description string `json:"description"`
+	img         string `json:"image"`
+	date         string `json:"date"`
+}
 
 func main() {
 	port := os.Getenv("PORT")
@@ -52,6 +54,10 @@ func main() {
 					fmt.Sprintf("Error creating database table: %q", err))
 				return
 			}
+
+
+
+
 		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
 
