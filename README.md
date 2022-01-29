@@ -14,3 +14,7 @@ JS
 JQUERY
 
 MBD https://mdbootstrap.com
+
+JS libraries:
+
+https://blog.minhazav.dev/research/html5-qrcode
