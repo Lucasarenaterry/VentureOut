@@ -6,13 +6,16 @@
   <body>
     {{template "navbar.html"}}
 
+    <img src="{{.image}}" style="width: 300px; height: 150px;"/>
     <p>{{.eventtittel}}</p>
+    <p>{{.eventtype}}</p>
+    <p>{{.description}}</p>
 
     {{template "navbarmobile.html"}}
     {{template "scripts.html"}}
   <script>
-  
-    
+    //var image = '{{.image}}';
+    //$('#image').attr("src", image);
 
     getuserlocation();
 
