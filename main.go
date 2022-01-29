@@ -44,10 +44,6 @@ func main() {
 	r.Static("/js", "./static/js")
 
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{})
-	})
-
-	r.GET("/home", func(c *gin.Context) {
 		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS Events (id SERIAL PRIMARY KEY, eventitle varchar(45) NOT NULL, eventype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
 					err != nil {
 				c.String(http.StatusInternalServerError,
@@ -55,9 +51,41 @@ func main() {
 				return
 			}
 
+			rows, err := db.Query("SELECT * FROM Events")
+			if err != nil {
+				c.String(http.StatusInternalServerError,
+					fmt.Sprintf("Error reading Events: %q", err))
+				return
+			}
+   
+			defer rows.Close()
+			var eventtittel string 
+			var eventtype string
+			var description string 
+			var image string 
+			var date string 
+
+			for rows.Scan() {
+				if err := rows.Scan(&eventtittel, &eventtype, &description, &image, &date); err != nil {
+					c.String(http.StatusInternalServerError,
+						fmt.Sprintf("Error scanning trees: %q", err))
+					return
+				}
+				fmt.Println("Read from DB")
+			}
+			
 
 
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"eventtittel": eventtittel,
+			"eventtype": eventtype,
+			"description": description,
+			"image": image,
+			"date": date,
+		})
+	})
 
+	r.GET("/home", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
 
