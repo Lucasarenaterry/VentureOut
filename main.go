@@ -65,15 +65,14 @@ func main() {
 			var image string 
 			var date string 
 
-			for rows.Scan() {
+		
+			for rows.Next() {
 				if err := rows.Scan(&eventtittel, &eventtype, &description, &image, &date); err != nil {
 					c.String(http.StatusInternalServerError,
-						fmt.Sprintf("Error scanning trees: %q", err))
+						fmt.Sprintf("Error scanning events: %q", err))
 					return
 				}
-				fmt.Println("Read from DB")
 			}
-			
 
 
 		c.HTML(http.StatusOK, "index.html", gin.H{
