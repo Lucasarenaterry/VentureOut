@@ -44,14 +44,14 @@ func main() {
 	r.Static("/js", "./static/js")
 
 	r.GET("/", func(c *gin.Context) {
-		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS Events (id SERIAL PRIMARY KEY, eventitle varchar(45) NOT NULL, eventype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
+		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS Events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
 					err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error creating database table: %q", err))
 				return
 			}
 
-			rows, err := db.Query("SELECT * FROM Events")
+			rows, err := db.Query("SELECT eventtittel, eventtype, description, image, eventdate FROM Events")
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
@@ -88,7 +88,7 @@ func main() {
 		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
 
-	//INSERT INTO events (id, eventitle, eventype, description, image, location, eventdate)
+	//INSERT INTO events (id, eventtittel, eventtype, description, image, location, eventdate)
 	//VALUES (1, 'LANDSCAPE TRAIL', 'Walk', 'walk around campus visiting the main landcapes', 'landscape.png', 'SRID=4326;POINT(-3.321578 55.910807)', '2022/01/23');
 
 	r.GET("/map", func(c *gin.Context) {

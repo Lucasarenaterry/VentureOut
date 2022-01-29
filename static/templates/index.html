@@ -6,12 +6,14 @@
   <body>
     {{template "navbar.html"}}
 
-
+    <p>{{.eventtittel}}</p>
 
     {{template "navbarmobile.html"}}
     {{template "scripts.html"}}
   <script>
   
+    
+
     getuserlocation();
 
     const errorCallback = (error) => {
