@@ -17,12 +17,12 @@ import (
 )
 
 type Event struct {
-	id          int `json:"Id"`
-	eventtittel string `json:"eventtittel"`
-	eventtype   string `json:"eventtype"`
-	description string `json:"description"`
-	image         string `json:"image"`
-	date         string `json:"date"`
+	Id          int `json:"Id"`
+	Eventtittel string `json:"Eventtittel"`
+	Eventtype   string `json:"Eventtype"`
+	Description string `json:"Description"`
+	Image         string `json:"Image"`
+	Date         string `json:"Date"`
 }
 
 func main() {
@@ -59,24 +59,25 @@ func main() {
 			}
    
 			defer rows.Close()
-			var eventtittel string 
-			var eventtype string
-			var description string 
-			var image string 
-			var date string 
+			// var Eventtittel string 
+			// var Eventtype string
+			// var Description string 
+			// var Image string 
+			// var Date string 
 
 			
-			// events := make([]Event, 0)
-			
+			events := make([]Event, 0)
+
 			for rows.Next() {
-				// event := Event{}
-				if err := rows.Scan(&eventtittel, &eventtype, &description, &image, &date); 
+				event := Event{}
+				if err := rows.Scan(&event.Eventtittel, &event.Eventtype, &event.Description, &event.Image, &event.Date); 
 				err != nil {
 					c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error scanning events: %q", err))
 					return
 				}
-				// events = append(events, event)
+				
+				 events = append(events, event)
 
 			}
 				// 	fmt.Println(events)
@@ -84,11 +85,12 @@ func main() {
 			
 
 		c.HTML(http.StatusOK, "index.html", gin.H{
-			"eventtittel": eventtittel,
-			"eventtype": eventtype,
-			"description": description,
-			"image": image,
-			"date": date,
+			// "eventtittel": Eventtittel,
+			// "eventtype": Eventtype,
+			// "description": Description,
+			// "image": Image,
+			// "date": Date,
+			"events": events,
 		})
 	})
 
