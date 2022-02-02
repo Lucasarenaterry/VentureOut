@@ -16,13 +16,15 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+
+
 type Event struct {
 	Id          int `json:"Id"`
 	Eventtittel string `json:"Eventtittel"`
 	Eventtype   string `json:"Eventtype"`
 	Description string `json:"Description"`
-	Image         string `json:"Image"`
-	Date         string `json:"Date"`
+	Image       string `json:"Image"`
+	Date        string `json:"Date"`
 }
 
 func main() {
@@ -59,28 +61,40 @@ func main() {
 			}
    
 			defer rows.Close()
-			// var Eventtittel string 
-			// var Eventtype string
-			// var Description string 
-			// var Image string 
-			// var Date string 
+			var Eventtittel string 
+			var Eventtype string
+			var Description string 
+			var Image string 
+			var Date string 
 
 			
 			events := make([]Event, 0)
 
 			for rows.Next() {
-				event := Event{}
-				if err := rows.Scan(&event.Eventtittel, &event.Eventtype, &event.Description, &event.Image, &event.Date); 
+				
+				if err := rows.Scan(&Eventtittel, &Eventtype, &Description, &Image, &Date); 
 				err != nil {
 					c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error scanning events: %q", err))
 					return
 				}
+				// event := &Event{
+				// 	Eventtittel: Eventtittel,
+				// 	Eventtype: Eventtype,
+				// 	Description: Description,
+				// 	Image: Image,
+				// 	Date: Date,
+				// }
 				
-				 events = append(events, event)
-
+				 events = append(events, Event{
+					 	Eventtittel: Eventtittel,
+						Eventtype: Eventtype,
+						Description: Description,
+						Image: Image,
+						Date: Date,
+					})
 			}
-				// 	fmt.Println(events)
+				
 			
 			
 
