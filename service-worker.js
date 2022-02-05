@@ -14,6 +14,9 @@ self.addEventListener('activate', function(event) {
     console.log('Service worker has been activated')
 });
 
+self.addEventListener('fetch', function(event) {
+    console.log('service worker fetch event', event);
+});
 
 const CacheUrls = [
     './',
@@ -24,12 +27,6 @@ const CacheUrls = [
     '/static/css/mdb.rtl.min.css',
     '/static/img/favicon.ico',
     '/static/img/logo.png',
-    '/static/img/maskable_icon_x72.png',
-    '/static/img/maskable_icon_x96.png',
-    '/static/img/maskable_icon_x128.png',
-    '/static/img/maskable_icon_x192.png',
-    '/static/img/maskable_icon_x384.png',
-    '/static/img/maskable_icon_x512.png',
     '/static/js/html5-qrcode.min.js',
     '/static/js/mdb.min.js',
     'manifest.webmanifest',
