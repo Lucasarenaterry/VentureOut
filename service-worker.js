@@ -30,11 +30,8 @@ self.addEventListener('fetch', function(event) {
             if (cacheResponse) {
                 return cacheResponse;
             }
-            return fetch(event.request).catch(function (e) {
-                alert('Connect to internet has been lost, try again when connected to internet');
-             });
+            return fetch(event.request);
         })
-
     );
 });
 
