@@ -1,0 +1,1 @@
+console.log('service worker getting out of bed and having a coffee');
