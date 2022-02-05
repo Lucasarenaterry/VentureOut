@@ -44,6 +44,7 @@ func main() {
 	r.LoadHTMLGlob("static/templates/*.html")
 	r.Static("/static", "static")
 	r.Static("/js", "./static/js")
+	r.StaticFile("manifest.webmanifest", "./manifest.webmanifest")
 
 	r.GET("/", func(c *gin.Context) {
 		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS Events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
