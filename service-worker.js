@@ -28,6 +28,8 @@ const CacheUrls = [
     '/static/img/maskable_icon_x96.png',
     '/static/img/maskable_icon_x128.png',
     '/static/img/maskable_icon_x192.png',
+    '/static/img/maskable_icon_x384.png',
+    '/static/img/maskable_icon_x512.png',
     '/static/js/html5-qrcode.min.js',
     '/static/js/mdb.min.js',
     'manifest.webmanifest',
