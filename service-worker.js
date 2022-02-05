@@ -3,7 +3,7 @@ console.log('service worker getting out of bed and having a coffee');
 
 self.addEventListener("install", function(event) {
    event.waitUntil(
-      caches.open("VentureOut-cache")
+      caches.open(CacheName)
       .then(cache => {
          return cache.addAll(CacheUrls);
       })
@@ -16,10 +16,22 @@ self.addEventListener('activate', function(event) {
 
 self.addEventListener('fetch', function(event) {
     console.log('service worker fetch event', event);
+    event.respondWith(
+        caches.match(event.request).then( function(cacheResponse) {
+            if (cacheResponse) {
+                return cacheResponse;
+            }
+            return fetch(event.request).catch(function (e) {
+                alert('Connect to internet has been lost, try again when connected to internet');
+             });
+        })
+
+    );
 });
 
+const CacheName = 'VentureOut-cache';
 const CacheUrls = [
-    './',
+    '/',
     '/static/css/main.css', 
     '/static/css/mdb.dark.min.css',
     '/static/css/mdb.dark.rtl.min.css',
