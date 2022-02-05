@@ -17,7 +17,7 @@ self.addEventListener('activate', function(event) {
         caches.keys().then( function(keys) {
             return Promise.all(keys
                 .filter(key => key !== CacheName)
-                .map(Key => caches.delete())
+                .map(key => caches.delete(key))
             )
         })
     )
