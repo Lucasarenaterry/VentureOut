@@ -14,6 +14,27 @@
     <script>
         let map;
 
+        //initiate getting user location
+        getuserlocation();
+
+        const errorCallback = (error) => {
+        console.error(error);
+        };
+
+        function getuserlocation(){
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(errorCallback);
+                setTimeout(getuserlocation, 2000);
+            } else {
+                alert("Geolocation is not supported by your browser.")
+            }
+        
+        };
+
+
+
+
+
         function initMap(){
             var options = {
                 center: { lat: 55.909769499991654, lng: -3.3205147727103452 },
