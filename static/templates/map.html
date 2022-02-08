@@ -48,7 +48,8 @@
 
         function getuserlocation(){
             if(navigator.geolocation){
-                navigator.geolocation.getCurrentPosition(getPositionError(err.code));
+                navigator.geolocation.getCurrentPosition(err =>
+                alert(`Error: ${getPositionError(err.code) || err.message}`));
                 setTimeout(getuserlocation, 2000);
             } else {
                 alert("Geolocation is not supported by your browser.")
