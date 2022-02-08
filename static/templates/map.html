@@ -17,11 +17,16 @@
         //initiate getting user location
         getuserlocation();
 
-
-
-
-        const errorCallback = (error) => {
-        console.error(error);
+        //user gets an error messaged based on the error code
+        const errorCallback = code => {
+            switch (code) {
+                case 1:
+                    return 'Permission denied.';
+                case 2:
+                    return 'Position unavailable.';
+                case 3:
+                    return 'Timeout reached.';
+            }
         };
 
         //checks to see the users browers supports geolocation
@@ -32,6 +37,8 @@
 
             return navigator.geolocation.getCurrentPosition(onSuccess, onError);
             };
+
+        
 
         function getuserlocation(){
             if(navigator.geolocation){
