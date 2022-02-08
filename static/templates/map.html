@@ -18,7 +18,7 @@
         getuserlocation();
 
         //user gets an error messaged based on the error code
-        const getError = code => {
+        const getPositionError = code => {
             switch (code) {
                 case 1:
                     return 'Permission denied.';
@@ -28,25 +28,6 @@
                     return 'Timeout reached.';
             }
         };
-
-        function errorCallback(error)
-            {
-            switch(error.code) 
-                {
-                case error.PERMISSION_DENIED:
-                x.innerHTML="User denied the request for Geolocation."
-                break;
-                case error.POSITION_UNAVAILABLE:
-                x.innerHTML="Location information is unavailable."
-                break;
-                case error.TIMEOUT:
-                x.innerHTML="The request to get user location timed out."
-                break;
-                case error.UNKNOWN_ERROR:
-                x.innerHTML="An unknown error occurred."
-                break;
-                }
-            };
 
         //checks to see the users browers supports geolocation
         const getCurrentPosition = ({ onSuccess, onError = () => { } }) => {
@@ -67,7 +48,7 @@
 
         function getuserlocation(){
             if(navigator.geolocation){
-                navigator.geolocation.getCurrentPosition(errorCallback);
+                navigator.geolocation.getCurrentPosition(getPositionError);
                 setTimeout(getuserlocation, 2000);
             } else {
                 alert("Geolocation is not supported by your browser.")
@@ -114,7 +95,7 @@
                 map.panTo({ lat, lng });
                 },
                 onError: err =>
-                alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
+                alert(`Error: ${getPositionError(err.code) || err.message}`)
             });
 
             trackLocation({
@@ -123,7 +104,7 @@
                 map.panTo({ lat, lng });
                 },
                 onError: err =>
-                alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
+                alert(`Error: ${getPositionError(err.code) || err.message}`)
             });
 
 
