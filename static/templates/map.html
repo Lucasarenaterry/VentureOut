@@ -38,7 +38,13 @@
             return navigator.geolocation.getCurrentPosition(onSuccess, onError);
             };
 
-        
+            const trackLocation = ({ onSuccess, onError = () => { } }) => {
+                if ('geolocation' in navigator === false) {
+                    return onError(new Error('Geolocation is not supported by your browser, try again on a different browser.'));
+                }
+                return navigator.geolocation.watchPosition(onSuccess, onError, {enableHighAccuracy: true, timeout: 10000, maximumAge: 0});
+            };
+
 
         function getuserlocation(){
             if(navigator.geolocation){
