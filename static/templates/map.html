@@ -18,7 +18,7 @@
         getuserlocation();
 
         //user gets an error messaged based on the error code
-        const getPositionError = code => {
+        const errorCallback = code => {
             switch (code) {
                 case 1:
                     return 'Permission denied.';
@@ -28,6 +28,8 @@
                     return 'Timeout reached.';
             }
         };
+
+       
 
         //checks to see the users browers supports geolocation
         const getCurrentPosition = ({ onSuccess, onError = () => { } }) => {
@@ -48,8 +50,7 @@
 
         function getuserlocation(){
             if(navigator.geolocation){
-                navigator.geolocation.getCurrentPosition(err =>
-                alert(`Error: ${getPositionError(err.code) || err.message}`));
+                navigator.geolocation.getCurrentPosition(errorCallback);
                 setTimeout(getuserlocation, 2000);
             } else {
                 alert("Geolocation is not supported by your browser.")
@@ -96,7 +97,7 @@
                 map.panTo({ lat, lng });
                 },
                 onError: err =>
-                alert(`Error: ${getPositionError(err.code) || err.message}`)
+                alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
             });
 
             trackLocation({
@@ -105,7 +106,7 @@
                 map.panTo({ lat, lng });
                 },
                 onError: err =>
-                alert(`Error: ${getPositionError(err.code) || err.message}`)
+                alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
             });
 
 
