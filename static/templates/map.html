@@ -83,6 +83,28 @@
                 $('#date').html(date);
                 $('#infomodal').modal('show');
             });
+
+
+
+            getCurrentPosition({
+                onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+                marker.setPosition({ lat, lng });
+                map.panTo({ lat, lng });
+                },
+                onError: err =>
+                alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
+            });
+
+            trackLocation({
+                onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+                marker.setPosition({ lat, lng });
+                map.panTo({ lat, lng });
+                },
+                onError: err =>
+                alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
+            });
+
+
         } 
 
     
