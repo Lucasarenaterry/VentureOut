@@ -18,7 +18,7 @@
         getuserlocation();
 
         //user gets an error messaged based on the error code
-        const errorCallback = code => {
+        const getError = code => {
             switch (code) {
                 case 1:
                     return 'Permission denied.';
@@ -29,6 +29,25 @@
             }
         };
 
+        function errorCallback(error)
+            {
+            switch(error.code) 
+                {
+                case error.PERMISSION_DENIED:
+                x.innerHTML="User denied the request for Geolocation."
+                break;
+                case error.POSITION_UNAVAILABLE:
+                x.innerHTML="Location information is unavailable."
+                break;
+                case error.TIMEOUT:
+                x.innerHTML="The request to get user location timed out."
+                break;
+                case error.UNKNOWN_ERROR:
+                x.innerHTML="An unknown error occurred."
+                break;
+                }
+            };
+
         //checks to see the users browers supports geolocation
         const getCurrentPosition = ({ onSuccess, onError = () => { } }) => {
             if ('geolocation' in navigator === false) {
@@ -38,12 +57,12 @@
             return navigator.geolocation.getCurrentPosition(onSuccess, onError);
             };
 
-            const trackLocation = ({ onSuccess, onError = () => { } }) => {
-                if ('geolocation' in navigator === false) {
-                    return onError(new Error('Geolocation is not supported by your browser, try again on a different browser.'));
-                }
+        const trackLocation = ({ onSuccess, onError = () => { } }) => {
+            if ('geolocation' in navigator === false) {
+                return onError(new Error('Geolocation is not supported by your browser, try again on a different browser.'));
+            }
                 return navigator.geolocation.watchPosition(onSuccess, onError, {enableHighAccuracy: true, timeout: 10000, maximumAge: 0});
-            };
+        };
 
 
         function getuserlocation(){
