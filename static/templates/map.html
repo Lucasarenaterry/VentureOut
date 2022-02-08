@@ -86,8 +86,11 @@
                 mapTypeId: 'satellite',
             }
 
+            const initialPosition = { lat: 59.325, lng: 18.069 };
             var map = new google.maps.Map(document.getElementById('map'), options);
             
+            const marker = createMarker({ map, position: initialPosition });
+
             map.data.loadGeoJson('static/HWUevents.geojson');
 
             map.data.addListener('click', function (event) {
