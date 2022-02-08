@@ -17,9 +17,21 @@
         //initiate getting user location
         getuserlocation();
 
+
+
+
         const errorCallback = (error) => {
         console.error(error);
         };
+
+        //checks to see the users browers supports geolocation
+        const getCurrentPosition = ({ onSuccess, onError = () => { } }) => {
+            if ('geolocation' in navigator === false) {
+                return onError(new Error('Geolocation is not supported by your browser, try again on a different browser.'));
+            }
+
+            return navigator.geolocation.getCurrentPosition(onSuccess, onError);
+            };
 
         function getuserlocation(){
             if(navigator.geolocation){
