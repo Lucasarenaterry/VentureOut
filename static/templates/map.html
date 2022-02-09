@@ -12,6 +12,10 @@
     {{template "infomodal.html"}}
     {{template "scripts.html"}}
     <script>
+        var featureCollection = '{{.featureCollection}}';
+        console.log("hi");
+        console.log(featureCollection);
+
         let map;
 
         //initiate getting user location
@@ -88,7 +92,11 @@
                 }
             });
 
-            map.data.loadGeoJson('static/HWUevents.geojson');
+        
+            // map.data.loadGeoJson('static/HWUevents.geojson');
+            var geojson = JSON.parse(featureCollection);
+            map.data.addGeoJson(geojson);
+           
 
             map.data.addListener('click', function (event) {
                 var event_title = event.feature.getProperty('eventtittel');
