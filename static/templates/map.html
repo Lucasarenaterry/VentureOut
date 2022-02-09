@@ -92,11 +92,13 @@
 
             map.data.addListener('click', function (event) {
                 var event_title = event.feature.getProperty('eventtittel');
+                var organized_by = event.feature.getProperty('organizedBy');
                 var image = event.feature.getProperty('image');
                 var description = event.feature.getProperty('description');
                 var date = event.feature.getProperty('date');
 
                 $('#event_title').html(event_title);
+                $('#organized_by').html(organized_by);
                 $('#image').attr("src", image);
                 $('#description').html(description);
                 $('#date').html(date);

@@ -7,6 +7,7 @@
           "Id": "1",
           "eventtittel": "LANDSCAPE TRAIL",
           "eventtype":"Walk",
+          "organizedBy":"Heriot-Watt University",
           "description":"walk around campus visiting the main landscapes",
           "image":"static/img/landscape.png",
           "date":"2022/01/23"
@@ -25,6 +26,7 @@
           "Id": "2",
           "eventtittel": "BIRD TRAIL",
           "eventtype":"Walk",
+          "organizedBy":"Heriot-Watt University",
           "description":"walk around campus to look at birds",
           "image":"",
           "date":"2022/01/23"
