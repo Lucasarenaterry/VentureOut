@@ -5,12 +5,25 @@
 
   <body>
     {{template "navbar.html"}}
+    <p style="padding-top: 5px; font-size: 20px; font-weight: bold !important;">Walks in Heriot-Watt University</p>
     {{ range .events }}
+
+    <div id="walks" class="p-5">
+    <div class="container">
+    <div class="row g-4">
+    <div class="col-md-6 col-lg-3">
+    <div class="card">
     <img src="{{.Image}}" style="width: 300px; height: 150px;"/>
  
     <p>{{.Eventtittel}}</p>
     <p>{{.Eventtype}}</p>
     <p>{{.Description}}</p>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
     {{ end }}
     {{template "navbarmobile.html"}}
     {{template "scripts.html"}}
