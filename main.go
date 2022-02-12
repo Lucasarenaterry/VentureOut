@@ -123,7 +123,7 @@ func main() {
 				return
 			}
 
-			rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) as json from events as t(id, eventtittel, eventtype, description, image, location, eventdate, eventtime)")
+			rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, image, location, eventdate, eventtime)")
 				if err != nil {
 					c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
