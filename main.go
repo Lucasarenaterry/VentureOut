@@ -112,6 +112,49 @@ func main() {
 		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
 
+	r.POST("/map", func(c *gin.Context) {
+		if err := c.Request.ParseForm();err != nil {
+			c.String(http.StatusInternalServerError,
+			fmt.Sprintf("ParseForm() err: %v", err))
+			return
+		}
+
+		filter := c.Request.FormValue("filter")
+		fmt.Printf("%v", filter)
+
+		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS Events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
+				err != nil {
+					c.String(http.StatusInternalServerError,
+					fmt.Sprintf("Error creating database table: %q", err))
+				return
+			}
+
+			
+			rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, image, location, eventdate, eventtime) WHERE eventtype = $1", filter)
+				if err != nil {
+					c.String(http.StatusInternalServerError,
+					fmt.Sprintf("Error reading Events: %q", err))
+				return
+			}
+			
+			var featureCollection string
+
+			defer rows.Close()
+			
+			for rows.Next() {
+				if err := rows.Scan(&featureCollection); 
+					err != nil {
+						c.String(http.StatusInternalServerError,
+							fmt.Sprintf("Error scanning events: %q", err))
+						return
+					}
+			}
+			fmt.Printf("%v", featureCollection)
+			
+			
+			c.HTML(http.StatusOK, "map.html", gin.H{ "featureCollection": featureCollection, })
+	})
+
 	//INSERT INTO events (id, eventtittel, eventtype, description, image, location, eventdate)
 	//VALUES (1, 'LANDSCAPE TRAIL', 'Walk', 'walk around campus visiting the main landcapes', 'landscape.png', 'SRID=4326;POINT(-3.321578 55.910807)', '2022/01/23');
 
