@@ -30,6 +30,9 @@
 
     <!-- activating service-worker -->
     <script>
+
+      // var events = ' {{ .events }}';
+      // console.log(events);
         
       if ('serviceWorker' in navigator) { //checks if service worker is supported on the browser
           navigator.serviceWorker.register('service-worker.js', {scope: '/'})

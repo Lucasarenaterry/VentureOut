@@ -25,6 +25,11 @@ type Event struct {
 	Date        string `json:"Date"`
 }
 
+type EventFilter struct {
+	// Id        int `json:"Id"`
+	Eventtype string `json:"Eventtype"`
+}
+
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -120,7 +125,7 @@ func main() {
 		}
 
 		filter := c.Request.FormValue("filter")
-		fmt.Printf("%v", filter)
+		fmt.Printf("filter %v", filter)
 
 		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS Events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
 				err != nil {
@@ -152,7 +157,35 @@ func main() {
 			fmt.Printf("%v", featureCollection)
 			
 			
-			c.HTML(http.StatusOK, "map.html", gin.H{ "featureCollection": featureCollection, })
+			rowss, err := db.Query("SELECT DISTINCT eventtype FROM events")
+				if err != nil {
+					c.String(http.StatusInternalServerError,
+					fmt.Sprintf("Error reading Events: %q", err))
+				return
+			}
+			
+			var Eventtype string
+
+			filterTypes := make([]EventFilter, 0)
+
+			defer rowss.Close()
+			
+			for rowss.Next() {
+				if err := rowss.Scan(&Eventtype); 
+					err != nil {
+						c.String(http.StatusInternalServerError,
+							fmt.Sprintf("Error scanning events: %q", err))
+						return
+					}
+
+					filterTypes = append(filterTypes, EventFilter{
+					   Eventtype: Eventtype,
+				   })
+			}
+			fmt.Printf("%v", filterTypes)
+
+			
+			c.HTML(http.StatusOK, "map.html", gin.H{ "featureCollection": featureCollection, "filterTypes": filterTypes, })
 	})
 
 	//INSERT INTO events (id, eventtittel, eventtype, description, image, location, eventdate)
@@ -188,8 +221,35 @@ func main() {
 			}
 			fmt.Printf("%v", featureCollection)
 			
+			rowss, err := db.Query("SELECT DISTINCT eventtype FROM events")
+				if err != nil {
+					c.String(http.StatusInternalServerError,
+					fmt.Sprintf("Error reading Events: %q", err))
+				return
+			}
 			
-			c.HTML(http.StatusOK, "map.html", gin.H{ "featureCollection": featureCollection, })
+			var Eventtype string
+
+			filterTypes := make([]EventFilter, 0)
+
+			defer rowss.Close()
+			
+			for rowss.Next() {
+				if err := rowss.Scan(&Eventtype); 
+					err != nil {
+						c.String(http.StatusInternalServerError,
+							fmt.Sprintf("Error scanning events: %q", err))
+						return
+					}
+
+					filterTypes = append(filterTypes, EventFilter{
+					   Eventtype: Eventtype,
+				   })
+			}
+			fmt.Printf("%v", filterTypes)
+
+			
+			c.HTML(http.StatusOK, "map.html", gin.H{ "featureCollection": featureCollection, "filterTypes": filterTypes, })
 		})
 
 		r.GET("/addevent", func(c *gin.Context) {
