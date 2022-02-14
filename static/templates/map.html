@@ -26,7 +26,7 @@
         <div class="modal-body">
             <form method="POST" action="/map">
             
-            <select class="select" name="filter" multiple>
+            <select class="select" style="width: 100px;" name="filter" multiple>
                 {{ range .filterTypes }}
                 <option value="{{.Eventtype}}" >{{.Eventtype}}</option>
                 {{ end }}
