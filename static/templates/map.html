@@ -25,8 +25,14 @@
         </div>
         <div class="modal-body">
             <form method="POST" action="/map">
+                <!-- {{ range .filterTypes }}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="filter" value="{{.Eventtype}}" id="flexCheckDefault" />
+                    <label class="form-check-label" for="flexCheckDefault">{{.Eventtype}}</label>
+                </div>
+                {{ end }} -->
             
-            <select class="select" style="width: 100px;" name="filter" multiple>
+            <select class="select" size="5" style="width: 100px;" name="filter" multiple data-mdb-container="#exampleModal" data-mdb-filter="true">
                 {{ range .filterTypes }}
                 <option value="{{.Eventtype}}" >{{.Eventtype}}</option>
                 {{ end }}
