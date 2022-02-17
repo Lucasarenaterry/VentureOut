@@ -139,27 +139,46 @@ func main() {
 				return
 			}
 
+			var featureCollection string
+
+			if filterSlice != nil {
+				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, image, location, eventdate, eventtime) WHERE eventtype = ANY($1)", filter)
+					if err != nil {
+						c.String(http.StatusInternalServerError,
+						fmt.Sprintf("Error reading Events: %q", err))
+					return
+				}
+
+				defer rows.Close()
 			
-			rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, image, location, eventdate, eventtime) WHERE eventtype = ANY($1)", filter)
+				for rows.Next() {
+					if err := rows.Scan(&featureCollection); 
+						err != nil {
+							c.String(http.StatusInternalServerError,
+								fmt.Sprintf("Error scanning events: %q", err))
+							return
+						}
+				}
+				fmt.Printf("%v", featureCollection)
+			} else { //this if else case is if no filter is chosen then all event types will be shown
+				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, image, location, eventdate, eventtime)")
 				if err != nil {
 					c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
 				return
-			}
+				}
+				defer rows.Close()
 			
-			var featureCollection string
-
-			defer rows.Close()
-			
-			for rows.Next() {
-				if err := rows.Scan(&featureCollection); 
-					err != nil {
-						c.String(http.StatusInternalServerError,
-							fmt.Sprintf("Error scanning events: %q", err))
-						return
-					}
+				for rows.Next() {
+					if err := rows.Scan(&featureCollection); 
+						err != nil {
+							c.String(http.StatusInternalServerError,
+								fmt.Sprintf("Error scanning events: %q", err))
+							return
+						}
+				}
+				fmt.Printf("%v", featureCollection)
 			}
-			fmt.Printf("%v", featureCollection)
 			
 			
 			rowss, err := db.Query("SELECT DISTINCT eventtype FROM events")
