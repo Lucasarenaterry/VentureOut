@@ -240,7 +240,6 @@
 
                 // if qr code has been scanned then modal will be shown with data of the event
                if (qrscanned){
-                    console.log("test");
                     $('#infomodal').modal('hide');
                     var event_title = "{{.Eventtittel}}";
                     // var organized_by = event.feature.getProperty('organizedBy');
@@ -255,8 +254,6 @@
                     $('#date').html(date);
 
                     $('#infomodal').modal('show');
-               
-                
                 };
         } 
 
