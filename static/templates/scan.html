@@ -18,6 +18,9 @@
       function onScanSuccess(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
         console.log(`Scan result: ${decodedText}`, decodedResult);
+        dataUrl = "/map" + "?" + `${decodedText}`;
+        window.location.href = dataUrl;
+
       }
 
       function onScanError(errorMessage) {
