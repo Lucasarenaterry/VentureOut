@@ -225,10 +225,18 @@ func main() {
 
 			eventid := c.Query("id")
 			fmt.Println("Event id is", eventid)
-
+			var qrscanned bool
+			qrscanned = false
 			var featureCollection string
 
+			var Eventtittel string 
+			var Eventtype string
+			var Description string 
+			var Image string 
+			var Date string 
+
 			if eventid != "" {
+				qrscanned = true
 				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, image, location, eventdate, eventtime) WHERE id = $1", eventid)
 					if err != nil {
 						c.String(http.StatusInternalServerError,
@@ -236,8 +244,6 @@ func main() {
 					return
 				}
 				
-				
-
 				defer rows.Close()
 				
 				for rows.Next() {
@@ -249,6 +255,28 @@ func main() {
 						}
 				}
 				fmt.Printf("%v", featureCollection)
+
+				rowss, err := db.Query("SELECT eventtittel, eventtype, description, image, eventdate FROM Events WHERE id = $1", eventid)
+				if err != nil {
+					c.String(http.StatusInternalServerError,
+						fmt.Sprintf("Error reading Events: %q", err))
+					return
+				}
+	
+				defer rowss.Close()
+				
+
+				for rowss.Next() {
+				
+					if err := rowss.Scan(&Eventtittel, &Eventtype, &Description, &Image, &Date); 
+					err != nil {
+						c.String(http.StatusInternalServerError,
+							fmt.Sprintf("Error scanning events: %q", err))
+						return
+					}
+				}
+
+				
 			} else {
 				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, image, location, eventdate, eventtime)")
 					if err != nil {
@@ -278,8 +306,6 @@ func main() {
 					fmt.Sprintf("Error reading Events: %q", err))
 				return
 			}
-			
-			var Eventtype string
 
 			filterTypes := make([]EventFilter, 0)
 
@@ -300,7 +326,16 @@ func main() {
 			fmt.Printf("%v", filterTypes)
 
 			
-			c.HTML(http.StatusOK, "map.html", gin.H{ "featureCollection": featureCollection, "filterTypes": filterTypes, })
+			c.HTML(http.StatusOK, "map.html", gin.H{ 
+				"featureCollection": featureCollection, 
+				"filterTypes": filterTypes, 
+				"qrscanned": qrscanned,
+				"Eventtittel": Eventtittel,
+				"Eventtype": Eventtype,
+				"Description": Description,
+				"Image": Image,
+				"Date": Date,
+			})
 		})
 
 		r.GET("/addevent", func(c *gin.Context) {
