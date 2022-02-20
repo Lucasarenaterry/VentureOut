@@ -59,12 +59,7 @@
 
         var featureCollection = '{{.featureCollection}}';
         console.log(featureCollection);
-        var qrscanned = '{{.qrscanned}}';
-        console.log(qrscanned);
         
-        
-        
-
         let map;
 
         //initiate getting user location
@@ -238,26 +233,40 @@
             CenterControl(centerControlDiv, map);
             map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
 
-                // if qr code has been scanned then modal will be shown with data of the event
-               if (qrscanned){
-                    $('#infomodal').modal('hide');
-                    var event_title = "{{.Eventtittel}}";
-                    // var organized_by = event.feature.getProperty('organizedBy');
-                    var image = "{{.Image}}";
-                    var description = "{{.Description}}";
-                    var date = "{{.Date}}";
-                    qrscanned = false;
-                    $('#event_title').html(event_title);
-                    $('#organized_by').html(organized_by);
-                    $('#image').attr("src", image);
-                    $('#description').html(description);
-                    $('#date').html(date);
-
-                    $('#infomodal').modal('show');
-                };
+               
         } 
 
     
+
+    </script>
+
+    <script>
+        var qr = '{{.qrscanned}}';
+        console.log(qr);
+
+         // if qr code has been scanned then modal will be shown with data of the event
+        $(window).on('load', function() {
+        if (qr == "true"){
+            
+                $('#infomodal').modal('hide');
+                var event_title = "{{.Eventtittel}}";
+                    // var organized_by = event.feature.getProperty('organizedBy');
+                var image = "{{.Image}}";
+                var description = "{{.Description}}";
+                var date = "{{.Date}}";
+                qrscanned = false;
+                $('#event_title').html(event_title);
+                $('#organized_by').html(organized_by);
+                $('#image').attr("src", image);
+                $('#description').html(description);
+                $('#date').html(date);
+                  
+                $('#infomodal').modal('show');
+            
+        };
+        });
+       
+        
 
     </script>
 

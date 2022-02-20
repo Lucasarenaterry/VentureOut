@@ -236,7 +236,7 @@ func main() {
 			var Date string 
 
 			if eventid != "" {
-				qrscanned = true
+				
 				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, image, location, eventdate, eventtime) WHERE id = $1", eventid)
 					if err != nil {
 						c.String(http.StatusInternalServerError,
@@ -276,7 +276,7 @@ func main() {
 					}
 				}
 
-				
+				qrscanned = true
 			} else {
 				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, image, location, eventdate, eventtime)")
 					if err != nil {
