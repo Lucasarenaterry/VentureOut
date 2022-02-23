@@ -15,16 +15,23 @@
     {{template "scripts.html"}}
     
     <script>
+
+      function stopsqlinjection(data) {
+        var regex = new RegExp('^(id=)([1-9]+[0-9]*)[&](VentureOut)$');
+        return !!regex.test(data);
+      }
+
       function onScanSuccess(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
         console.log(`Scan result: ${decodedText}`, decodedResult);
-        if (decodedText.includes("VentureOut")){
-          dataUrl = "/map" + "?" + `${decodedText}`; //example /map?id=2&VentureOut
-          window.location.href = dataUrl;
-        }else{
-          alert("QR code scanned is not valid, please scan QR code for VentureOut.");
+        if (stopsqlinjection(decodedText)) {
+          if (decodedText.includes("VentureOut")){
+            dataUrl = "/map" + "?" + `${decodedText}`; //example /map?id=2&VentureOut
+            window.location.href = dataUrl;
+          }else{
+            alert("QR code scanned is not valid, please scan QR code for VentureOut.");
+          }
         }
-
       }
 
       function onScanError(errorMessage) {
