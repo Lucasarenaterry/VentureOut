@@ -18,8 +18,12 @@
       function onScanSuccess(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
         console.log(`Scan result: ${decodedText}`, decodedResult);
-        dataUrl = "/map" + "?" + `${decodedText}`;
-        window.location.href = dataUrl;
+        if (decodedText.includes("VentureOut")){
+          dataUrl = "/map" + "?" + `${decodedText}`; //example /map?id=2&VentureOut
+          window.location.href = dataUrl;
+        }else{
+          alert("QR code scanned is not valid, please scan QR code for VentureOut.");
+        }
 
       }
 
