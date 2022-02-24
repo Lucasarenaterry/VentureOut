@@ -128,8 +128,77 @@
             };
 
 
-        function CenterControl(controlDiv, map) {
-        // Set CSS for the control border.
+        // function CenterControl(controlDiv, map) {
+        // // Set CSS for the control border.
+        // const controlUI = document.createElement("div");
+
+        // controlUI.style.backgroundColor = "#fff";
+        // controlUI.style.border = "2px solid #fff";
+        // controlUI.style.borderRadius = "3px";
+
+        // controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+        // controlUI.style.cursor = "pointer";
+        // controlUI.style.marginTop = "8px";
+        // controlUI.style.marginBottom = "22px";
+        // controlUI.style.textAlign = "center";
+        // controlUI.title = "Filter Events";
+        // controlDiv.appendChild(controlUI);
+
+        // // Set CSS for the control interior.
+        // const controlText = document.createElement("div");
+
+        // controlText.style.color = "rgb(25,25,25)";
+        // controlText.style.fontFamily = "Roboto,Arial,sans-serif";
+        // controlText.style.fontSize = "16px";
+        // controlText.style.lineHeight = "38px";
+        // controlText.style.paddingLeft = "5px";
+        // controlText.style.paddingRight = "5px";
+        // controlText.innerHTML = "Filter Events";
+        // controlUI.appendChild(controlText);
+        // // Setup the click event listeners: simply set the map to Chicago.
+        // controlUI.addEventListener("click", () => {
+        //     $('#filtermodal').modal('show');
+            
+        // });
+        // }
+
+        // function MyLocation(controlDiv, map) {
+        // // Set CSS for the control border.
+        // const controlUI1 = document.createElement("div");
+
+        // controlUI1.style.backgroundColor = "#fff";
+        // controlUI1.style.border = "2px solid #fff";
+        // controlUI1.style.borderRadius = "3px";
+
+        // controlUI1.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+        // controlUI1.style.cursor = "pointer";
+        // controlUI1.style.marginTop = "8px";
+        // controlUI1.style.marginBottom = "22px";
+        // controlUI1.style.textAlign = "center";
+        // controlUI1.title = "Filter Events";
+        // controlDiv.appendChild(controlUI1);
+
+        // // Set CSS for the control interior.
+        // const controlText1 = document.createElement("div");
+
+        // controlText1.style.color = "rgb(25,25,25)";
+        // controlText1.style.fontFamily = "Roboto,Arial,sans-serif";
+        // controlText1.style.fontSize = "16px";
+        // controlText1.style.lineHeight = "38px";
+        // controlText1.style.paddingLeft = "5px";
+        // controlText1.style.paddingRight = "5px";
+        // // controlText.innerHTML = `<i class="fas fa-location"></i>`;
+        // controlText1.innerHTML = "hi";
+        // controlUI1.appendChild(controlText1);
+        // // Setup the click event listeners: simply set the map to Chicago.
+        // controlUI1.addEventListener("click", () => {
+           
+            
+        // });
+        // }
+
+        function CustomControl(controlDiv, map) {
+         // Set CSS for the control border.
         const controlUI = document.createElement("div");
 
         controlUI.style.backgroundColor = "#fff";
@@ -141,7 +210,7 @@
         controlUI.style.marginTop = "8px";
         controlUI.style.marginBottom = "22px";
         controlUI.style.textAlign = "center";
-        controlUI.title = "Click to recenter the map";
+        controlUI.title = "Filter Events";
         controlDiv.appendChild(controlUI);
 
         // Set CSS for the control interior.
@@ -160,6 +229,39 @@
             $('#filtermodal').modal('show');
             
         });
+
+       
+        }
+
+        function CustomControl1(controlDiv, map) {
+        // Set CSS for the control border
+        var controlUI1 = document.createElement('empty');
+        //controlUI1.style.backgroundColor = '#f00c0c';
+        controlUI1.style.backgroundColor = '#ffffff';
+        controlUI1.style.borderStyle = 'solid';
+        controlUI1.style.borderWidth = '1px';
+        controlUI1.style.borderColor = '#ccc';
+        controlUI1.style.borderRadius = "23px";
+        controlUI1.style.height = '33px';
+        controlUI1.style.marginTop = '5px';
+        controlUI1.style.marginLeft = '-6px';
+        controlUI1.style.paddingTop = '1px';
+        controlUI1.style.cursor = 'pointer';
+        controlUI1.style.textAlign = 'center';
+        controlUI1.title = 'MyLocation';
+        controlDiv.appendChild(controlUI1);
+
+        // Set CSS for the control interior
+        var controlText1 = document.createElement('empty');
+        controlText1.style.fontFamily = 'sans-serif';
+        controlText1.style.fontSize = '10px';
+        controlText1.style.paddingLeft = '4px';
+        controlText1.style.paddingRight = '8px';
+        controlText1.style.marginTop = '10px';
+        controlText1.innerHTML = 'MyLocation';
+        controlUI1.appendChild(controlText1);
+
+      
         }
 
 
@@ -213,7 +315,7 @@
             getCurrentPosition({
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
-                map.panTo({ lat, lng });
+                //map.panTo({ lat, lng });
                 },
                 onError: err =>
                 alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
@@ -228,10 +330,25 @@
                 alert(`Error: ${getErrorOfPosition(err.code) || err.message}`)
             });
 
-            const centerControlDiv = document.createElement("div");
+            // var centerControlDiv = document.createElement("div");
+            // CenterControl(centerControlDiv, map);
+            // centerControlDiv.index = 1;
+            // map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
 
-            CenterControl(centerControlDiv, map);
-            map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+            // var MyLocation = document.createElement("div");
+            // var customControl2 = new CustomControl1(MyLocation, map);
+            // MyLocation.index = 2;
+            // //CenterControl(MyLocation, map);
+            // map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(MyLocation);
+
+            var customControlDiv = document.createElement('div');
+            var customControl = new CustomControl(customControlDiv, map);
+            customControlDiv.index = 1;
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(customControlDiv);
+            var customControlDiv1 = document.createElement('div');
+            var customControl1 = new CustomControl1(customControlDiv1, map);
+            customControlDiv1.index = 2;
+            map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(customControlDiv1);
 
                
         } 
