@@ -233,34 +233,62 @@
        
         }
 
+        var trackinglocation = false;
+
         function CustomControl1(controlDiv, map) {
         // Set CSS for the control border
         var controlUI1 = document.createElement('empty');
         //controlUI1.style.backgroundColor = '#f00c0c';
-        controlUI1.style.backgroundColor = '#ffffff';
-        controlUI1.style.borderStyle = 'solid';
-        controlUI1.style.borderWidth = '1px';
-        controlUI1.style.borderColor = '#ccc';
-        controlUI1.style.borderRadius = "23px";
-        controlUI1.style.height = '33px';
-        controlUI1.style.marginTop = '5px';
-        controlUI1.style.marginLeft = '-6px';
-        controlUI1.style.paddingTop = '1px';
-        controlUI1.style.cursor = 'pointer';
-        controlUI1.style.textAlign = 'center';
-        controlUI1.title = 'MyLocation';
+        // controlUI1.style.backgroundColor = '#ffffff';
+        // controlUI1.style.borderStyle = 'solid';
+        // controlUI1.style.borderWidth = '1px';
+        // controlUI1.style.borderColor = '#ccc';
+        // controlUI1.style.borderRadius = "23px";
+        // controlUI1.style.height = '33px';
+        // controlUI1.style.marginTop = '5px';
+        // controlUI1.style.marginLeft = '-6px';
+        // controlUI1.style.paddingTop = '1px';
+        // controlUI1.style.cursor = 'pointer';
+        // controlUI1.style.textAlign = 'center';
+        // controlUI1.title = 'MyLocation';
+
+        controlUI1.style.backgroundColor = "#fff";
+        controlUI1.style.border = "2px solid #fff";
+        controlUI1.style.borderRadius = "3px";
+
+        controlUI1.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+        controlUI1.style.cursor = "pointer";
+        controlUI1.style.marginTop = "8px";
+        controlUI1.style.marginBottom = "22px";
+        controlUI1.style.textAlign = "center";
+        controlUI1.title = "MyLocation";
         controlDiv.appendChild(controlUI1);
 
         // Set CSS for the control interior
         var controlText1 = document.createElement('empty');
-        controlText1.style.fontFamily = 'sans-serif';
-        controlText1.style.fontSize = '10px';
-        controlText1.style.paddingLeft = '4px';
-        controlText1.style.paddingRight = '8px';
-        controlText1.style.marginTop = '10px';
+        // controlText1.style.fontFamily = 'sans-serif';
+        // controlText1.style.fontSize = '10px';
+        // controlText1.style.paddingLeft = '4px';
+        // controlText1.style.paddingRight = '8px';
+        // controlText1.style.marginTop = '10px';
         controlText1.innerHTML = 'MyLocation';
+        controlText1.style.color = "rgb(25,25,25)";
+        controlText1.style.fontFamily = "Roboto,Arial,sans-serif";
+        controlText1.style.fontSize = "16px";
+        controlText1.style.lineHeight = "38px";
+        controlText1.style.paddingLeft = "5px";
+        controlText1.style.paddingRight = "5px";
+        //controlText1.innerHTML = `<i class="fas fa-location"></i>`;
         controlUI1.appendChild(controlText1);
-
+        
+        controlUI1.addEventListener("click", () => {
+            if (trackinglocation){
+                trackinglocation = false;
+            } else {
+                trackinglocation = true;
+            }
+            console.log(trackinglocation);
+        });
       
         }
 
@@ -321,6 +349,7 @@
                 alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
             });
 
+            while(trackinglocation){
             trackLocation({
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
@@ -329,7 +358,7 @@
                 onError: err =>
                 alert(`Error: ${getErrorOfPosition(err.code) || err.message}`)
             });
-
+            }
             // var centerControlDiv = document.createElement("div");
             // CenterControl(centerControlDiv, map);
             // centerControlDiv.index = 1;
