@@ -341,7 +341,7 @@
 
             var userLatitude;
             var userLongitude;
-            
+
             function showPosition(){
                 lat= userLatitude;
                 lon= userLongitude;
@@ -366,7 +366,7 @@
             trackLocation({
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
-                map.panTo({ lat, lng });
+                //map.panTo({ lat, lng });
                 userLatitude = lat;
                 userLongitude = lng;
                 },
