@@ -366,7 +366,7 @@
                 marker.setPosition({ lat, lng });
                 userLatitude = lat;
                 userLongitude = lng;
-                if(trackinglocation == "true") {
+                if(trackinglocation) {
                 map.panTo({ lat, lng });
                 }
                 },
@@ -378,7 +378,7 @@
             trackLocation({
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
-                if(trackinglocation == "true") {
+                if(trackinglocation) {
                 map.panTo({ lat, lng });
                 }
                 userLatitude = lat;
