@@ -282,12 +282,14 @@
         controlUI1.appendChild(controlText1);
         
         controlUI1.addEventListener("click", () => {
-            if (trackinglocation){
-                trackinglocation = false;
-            } else {
-                trackinglocation = true;
+            if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                marker.setPosition(latlng);
+                map.setCenter(latlng);
+                clearInterval(animationInterval);
+            });
             }
-            console.log(trackinglocation);
         });
       
         }
@@ -354,9 +356,7 @@
             trackLocation({
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
-                if(trackinglocation){
                 map.panTo({ lat, lng });
-                }
                 },
                 onError: err =>
                 alert(`Error: ${getErrorOfPosition(err.code) || err.message}`)
