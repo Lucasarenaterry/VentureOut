@@ -287,17 +287,9 @@
       
         }
 
-        var userLatitude;
-        var userLongitude;
+      
         
-        function showPosition(){
-        lat= userLatitude;
-        lon= userLongitude;
-        console.log(lat);
-        console.log(lon);
-        latlon=new google.maps.LatLng(lat, lon);
-        map.panTo(latlon);
-        }
+        
 
 
         function initMap(){
@@ -347,7 +339,17 @@
                 $('#infomodal').modal('show');
             });
 
-           
+            var userLatitude;
+            var userLongitude;
+            
+            function showPosition(){
+                lat= userLatitude;
+                lon= userLongitude;
+                console.log(lat);
+                console.log(lon);
+                latlon=new google.maps.LatLng(lat, lon);
+                map.panTo(latlon);
+            }
 
             getCurrentPosition({
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
