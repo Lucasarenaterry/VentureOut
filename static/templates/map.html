@@ -343,7 +343,9 @@
             getCurrentPosition({
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
-                //map.panTo({ lat, lng });
+                if(trackinglocation){
+                map.panTo({ lat, lng });
+                }
                 },
                 onError: err =>
                 alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
@@ -353,7 +355,7 @@
             trackLocation({
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
-                while(trackinglocation){
+                if(trackinglocation){
                 map.panTo({ lat, lng });
                 }
                 },
