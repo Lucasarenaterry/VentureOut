@@ -110,14 +110,13 @@
             return navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout:10000});
             };
 
-        while(trackinglocation){
         const trackLocation = ({ onSuccess, onError = () => { } }) => {
             if ('geolocation' in navigator === false) {
                 return onError(new Error('Geolocation is not supported by your browser, try again on a different browser.'));
             }
                 return navigator.geolocation.watchPosition(onSuccess, onError, {enableHighAccuracy: true, timeout: 10000, maximumAge: 0});
         };
-        }
+
 
         function getLocation(){
                 if (navigator.geolocation)
@@ -354,7 +353,9 @@
             trackLocation({
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
+                while(trackinglocation){
                 map.panTo({ lat, lng });
+                }
                 },
                 onError: err =>
                 alert(`Error: ${getErrorOfPosition(err.code) || err.message}`)
