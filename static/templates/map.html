@@ -284,6 +284,12 @@
         controlUI1.addEventListener("click", () => {
            if(trackinglocation){
             trackinglocation = false;
+            lat= userLatitude;
+            lon= userLongitude;
+            console.log(lat);
+            console.log(lon);
+            latlon=new google.maps.LatLng(lat, lon);
+            map.panTo(latlon);
            }else{
             trackinglocation = true;
            }
@@ -343,8 +349,8 @@
                 $('#infomodal').modal('show');
             });
 
-            // var userLatitude;
-            // var userLongitude;
+            var userLatitude;
+            var userLongitude;
 
             // function showPosition(){
             //     lat= userLatitude;
@@ -358,8 +364,8 @@
             getCurrentPosition({
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
-                // userLatitude = lat;
-                // userLongitude = lng;
+                userLatitude = lat;
+                userLongitude = lng;
                 if(trackinglocation == "true") {
                 map.panTo({ lat, lng });
                 }
@@ -375,8 +381,8 @@
                 if(trackinglocation == "true") {
                 map.panTo({ lat, lng });
                 }
-                // userLatitude = lat;
-                // userLongitude = lng;
+                userLatitude = lat;
+                userLongitude = lng;
                 },
                 onError: err =>
                 alert(`Error: ${getErrorOfPosition(err.code) || err.message}`)
