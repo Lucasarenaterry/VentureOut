@@ -282,16 +282,21 @@
         controlUI1.appendChild(controlText1);
         
         controlUI1.addEventListener("click", () => {
-            if(navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                marker.setPosition(latlng);
-                map.setCenter(latlng);
-                clearInterval(animationInterval);
-            });
-            }
+           showPosition();
         });
       
+        }
+
+        var userLatitude;
+        var userLongitude;
+        
+        function showPosition(){
+        lat= userLatitude;
+        lon= userLongitude;
+        console.log(lat);
+        console.log(lon);
+        latlon=new google.maps.LatLng(lat, lon);
+        map.panTo(latlon);
         }
 
 
@@ -347,7 +352,8 @@
             getCurrentPosition({
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
-               
+                userLatitude = lat;
+                userLongitude = lng;
                 //map.panTo({ lat, lng });
                 },
                 onError: err =>
@@ -359,6 +365,8 @@
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
                 map.panTo({ lat, lng });
+                userLatitude = lat;
+                userLongitude = lng;
                 },
                 onError: err =>
                 alert(`Error: ${getErrorOfPosition(err.code) || err.message}`)
