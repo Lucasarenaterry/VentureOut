@@ -338,11 +338,14 @@
                 $('#infomodal').modal('show');
             });
 
-
+            var userLat;
+            var userLng;
 
             getCurrentPosition({
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
+                userLat = lat;
+                userLng = lng;
                 //map.panTo({ lat, lng });
                 },
                 onError: err =>
@@ -350,14 +353,7 @@
             });
 
             if(trackinglocation){
-                getCurrentPosition({
-                onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
-                marker.setPosition({ lat, lng });
-                map.panTo({ lat, lng });
-                },
-                onError: err =>
-                alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
-            });
+                map.panTo({ userLat, userLng });  
             }
             
             trackLocation({
@@ -366,6 +362,8 @@
                 if(trackinglocation){
                 map.panTo({ lat, lng });
                 }
+                userLat = lat;
+                userLng = lng;
                 },
                 onError: err =>
                 alert(`Error: ${getErrorOfPosition(err.code) || err.message}`)
