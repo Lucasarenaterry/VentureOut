@@ -283,6 +283,8 @@
         
         controlUI1.addEventListener("click", () => {
            if(trackinglocation){
+            trackinglocation = true;
+           }else{
             trackinglocation = false;
             lat= userLatitude;
             lon= userLongitude;
@@ -290,8 +292,6 @@
             console.log(lon);
             latlon=new google.maps.LatLng(lat, lon);
             map.panTo(latlon);
-           }else{
-            trackinglocation = true;
            }
         });
       
