@@ -60,7 +60,7 @@ func main() {
 				return
 			}
 
-			rows, err := db.Query("SELECT eventtittel, eventtype, description, image, eventdate FROM events")
+			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, location, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink eventdate FROM events")
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
@@ -72,14 +72,14 @@ func main() {
 			var Eventtype string
 			var Description string 
 			var Image string 
-			var Date string 
+			//var Date string 
 
 			
 			events := make([]Event, 0)
 
 			for rows.Next() {
 				
-				if err := rows.Scan(&Eventtittel, &Eventtype, &Description, &Image, &Date); 
+				if err := rows.Scan(&Eventtittel, &Eventtype, &Description, &Image); 
 				err != nil {
 					c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error scanning events: %q", err))
@@ -98,7 +98,6 @@ func main() {
 						Eventtype: Eventtype,
 						Description: Description,
 						Image: Image,
-						Date: Date,
 					})
 			}
 				
@@ -142,7 +141,7 @@ func main() {
 			var featureCollection string
 
 			if filterSlice != nil {
-				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, image, location, eventdate, eventtime) WHERE eventtype = ANY($1)", filter)
+				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink) WHERE eventtype = ANY($1)", filter)
 					if err != nil {
 						c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error reading Events: %q", err))
