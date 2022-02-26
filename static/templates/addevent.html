@@ -7,7 +7,77 @@
     {{template "navbar.html"}}
     {{template "navbarmobile.html"}}
    
-   
+   <div style="width: 60%; margin:0 auto; padding-top: 20px;">
+    <form>
+      
+      <div class="form-outline mb-4">
+        <input type="text" id="form4Example1" class="form-control" />
+        <label class="form-label" for="form4Example1">Event tittle</label>
+      </div>
+    
+      
+      <div class="form-outline mb-4">
+        <input type="text" id="form4Example2" class="form-control" />
+        <label class="form-label" for="form4Example2">Event type e.g. walk, run, cycle</label>
+      </div>
+    
+      
+      <div class="form-outline mb-4">
+        <textarea class="form-control" id="form4Example3" rows="3"></textarea>
+        <label class="form-label" for="form4Example3">Event description</label>
+      </div>
+
+      <div class="form-outline mb-4">
+        <input type="text" id="form4Example2" class="form-control" />
+        <label class="form-label" for="form4Example2">Organized By</label>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col">
+          <div class="form-outline">
+            <input type="text" id="form6Example1" class="form-control" />
+            <label class="form-label" for="form6Example1">Event Location latitude, e.g. 55.9406</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-outline">
+            <input type="text" id="form6Example2" class="form-control" />
+            <label class="form-label" for="form6Example2">Event Location longitude, e.g. -3.2138</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-outline">
+            <input type="date" id="form8Example3" class="form-control" />
+            <label class="form-label" for="form8Example3">Event start date</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-outline">
+            <input type="date" id="form8Example4" class="form-control" />
+            <label class="form-label" for="form8Example4">Event start time</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-outline">
+            <input type="date" id="form8Example5" class="form-control" />
+            <label class="form-label" for="form8Example5">Event end date</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-outline">
+            <input type="date" id="form8Example5" class="form-control" />
+            <label class="form-label" for="form8Example5">Event end time</label>
+          </div>
+        </div>
+      </div>
+
+      <p style="text-align: center;"> Once submitted the event will be either accepted or rejected by the admin.</p>
+      <button type="submit" class="btn btn-primary btn-block mb-4" style="width: 100px; margin:0 auto;">Submit</button>
+    </form>
+    </div>
     {{template "scripts.html"}}
     
   </body>
