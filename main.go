@@ -53,14 +53,14 @@ func main() {
 	r.StaticFile("service-worker.js", "./service-worker.js")
 
 	r.GET("/", func(c *gin.Context) {
-		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS Events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
+		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
 					err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error creating database table: %q", err))
 				return
 			}
 
-			rows, err := db.Query("SELECT eventtittel, eventtype, description, image, eventdate FROM Events")
+			rows, err := db.Query("SELECT eventtittel, eventtype, description, image, eventdate FROM events")
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
@@ -132,7 +132,7 @@ func main() {
 		filter := "{" + filters + "}"
 		fmt.Printf("filter %v", filter)
 
-		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS Events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
+		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT)"); 
 				err != nil {
 					c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error creating database table: %q", err))
@@ -161,7 +161,7 @@ func main() {
 				}
 				fmt.Printf("%v", featureCollection)
 			} else { //this if else case is if no filter is chosen then all event types will be shown
-				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, image, location, eventdate, eventtime)")
+				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink)")
 				if err != nil {
 					c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
@@ -215,8 +215,12 @@ func main() {
 	//INSERT INTO events (eventtittel, eventtype, description, image, location, eventdate)
 	//VALUES ('LANDSCAPE TRAIL', 'Walk', 'walk around campus visiting the main landcapes', 'landscape.png', 'SRID=4326;POINT(-3.321578 55.910807)', '2022/01/23');
 
+
+	// INSERT INTO events (eventtittel, eventtype, description, organizedby, image, location, geofence, displayfrom, displaytill, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink)
+	// VALUES ('LANDSCAPE TRAIL', 'Walk', 'walk around campus visiting the main landcapes', 'Heriot-Watt University', 'landscape.png', 'SRID=4326;POINT(-3.321578 55.910807)', ST_Buffer(geography(ST_POINT(-3.2138, 55.9406)), 3), '2022/02/26', '2022/03/26', '2022/03/01', '2022/03/4', '08:00', '13:00', 'hw@hw.ac.uk', 'https://www.hw.ac.uk/uk/campus-trails.htm');
+
 	r.GET("/map", func(c *gin.Context) {
-			if _, err := db.Exec("CREATE TABLE IF NOT EXISTS Events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
+			if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT)"); 
 				err != nil {
 					c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error creating database table: %q", err))
@@ -237,7 +241,7 @@ func main() {
 
 			if eventid != "" {
 				
-				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, image, location, eventdate, eventtime) WHERE id = $1", eventid)
+				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink) WHERE id = $1", eventid)
 					if err != nil {
 						c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error reading Events: %q", err))
