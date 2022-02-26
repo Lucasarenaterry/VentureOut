@@ -13,7 +13,7 @@
     <div class="row g-4">
     <div class="col-md-6 col-lg-3">
     <div class="card">
-    <img src="{{.Image}}" style="width: 300px; height: 150px;"/>
+    <img src="{{.Image}}" onerror="this.onerror;this.src='/static/img/logo.png'" style="width: 300px; height: 150px;"/>
  
     <p>{{.Eventtittel}}</p>
     <p>{{.Eventtype}}</p>
