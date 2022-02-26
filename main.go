@@ -23,8 +23,15 @@ type Event struct {
 	Eventtittel string `json:"Eventtittel"`
 	Eventtype   string `json:"Eventtype"`
 	Description string `json:"Description"`
+	OrganizedBy string `json:"OrganizedBy"`
 	Image       string `json:"Image"`
 	Date        string `json:"Date"`
+	EventStartdDate string `json:"EventStartdDate"`
+	EventEndDate string `json:"EventEndDate"`
+	EventStartTime string `json:"EventStartTime"`
+	EventEndTime string `json:"EventEndTime"` 
+	ContactEmail string `json:"ContactEmail"`
+	EventLink string `json:"EventLink"`
 }
 
 type EventFilter struct {
@@ -60,7 +67,7 @@ func main() {
 				return
 			}
 
-			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, location, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink eventdate FROM events")
+			rows, err := db.Query("SELECT eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink FROM events")
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
@@ -72,14 +79,20 @@ func main() {
 			var Eventtype string
 			var Description string 
 			var Image string 
-			//var Date string 
+			var OrganizedBy string 
+			var EventStartdDate string
+			var EventEndDate string
+			var EventStartTime string
+			var EventEndTime string
+			var ContactEmail string
+			var EventLink string
 
 			
 			events := make([]Event, 0)
 
 			for rows.Next() {
 				
-				if err := rows.Scan(&Eventtittel, &Eventtype, &Description, &Image); 
+				if err := rows.Scan(&Eventtittel, &Eventtype, &Description, &OrganizedBy, &Image, &EventStartdDate, &EventEndDate, &EventStartTime, &EventEndTime, &ContactEmail, &EventLink); 
 				err != nil {
 					c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error scanning events: %q", err))
@@ -97,7 +110,14 @@ func main() {
 					 	Eventtittel: Eventtittel,
 						Eventtype: Eventtype,
 						Description: Description,
+						OrganizedBy: OrganizedBy,
 						Image: Image,
+						EventStartdDate: EventStartdDate,
+						EventEndDate: EventEndDate,
+						EventStartTime: EventStartTime,
+						EventEndTime: EventEndTime,
+						ContactEmail: ContactEmail,
+						EventLink: EventLink,
 					})
 			}
 				
@@ -141,7 +161,7 @@ func main() {
 			var featureCollection string
 
 			if filterSlice != nil {
-				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink) WHERE eventtype = ANY($1)", filter)
+				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location' - 'geofence', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, geofence, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink) WHERE eventtype = ANY($1)", filter)
 					if err != nil {
 						c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error reading Events: %q", err))
@@ -160,7 +180,7 @@ func main() {
 				}
 				fmt.Printf("%v", featureCollection)
 			} else { //this if else case is if no filter is chosen then all event types will be shown
-				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink)")
+				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location' - 'geofence', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, geofence, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink)")
 				if err != nil {
 					c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
@@ -240,7 +260,7 @@ func main() {
 
 			if eventid != "" {
 				
-				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink) WHERE id = $1", eventid)
+				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location' - 'geofence', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, geofence, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink) WHERE id = $1", eventid)
 					if err != nil {
 						c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error reading Events: %q", err))
@@ -281,7 +301,7 @@ func main() {
 
 				qrscanned = true
 			} else {
-				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, image, location, eventdate, eventtime)")
+				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location' - 'geofence', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, geofence, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink)")
 					if err != nil {
 						c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error reading Events: %q", err))
