@@ -11,7 +11,7 @@
             <p>Organized By <p id="organized_by"></p></p>
             <p>Date <p id="date"></p></p>
           <div class="mt-2 pt-2 border-top">
-            <button type="button" class="btn btn-primary btn-sm" onclick="infomodal(); $('#notify').toast('hide');">More information</button>
+            <button type="button" class="btn btn-primary btn-sm" onclick="$('#notify').toast('hide'); infomodal();">More information</button>
             <button type="button" class="btn btn-secondary btn-sm" onclick="$('#notify').toast('hide');" data-bs-dismiss="toast">Close</button>
           </div>
         </div>
@@ -93,6 +93,22 @@
             $('#notify').toast('show');
         }
 
+        function infomodal() {
+            $('#infomodal').modal('hide');
+            var event_title = geofencedata.Eventtittel;
+            var organized_by = geofencedata.OrganizedBy;
+            var image = geofencedata.Image;
+            var description = geofencedata.Description;
+            var date = geofencedata.EventStartdDate;
+
+            $('#event_title').html(event_title);
+            $('#organized_by').html(organized_by);
+            $('#image').attr("src", image);
+            $('#description').html(description);
+            $('#date').html(date);
+            $('#infomodal').modal('show');
+        }
+
         //user gets an error messaged based on the error code
         const getErrorOfPosition = code => {
             switch (code) {
@@ -155,7 +171,7 @@
                 else{alert("Geolocation is not supported by this browser.");}
             };
 
-        
+        var geofencedata;
         
         function Geofence(position) {
             lat=position.coords.latitude;
@@ -172,6 +188,7 @@
                             scriptCharset: 'utf-8',
                         }). done (function (jsondata) {
                            var data = $.parseJSON(jsondata);
+                           geofencedata = data;
                             console.log(data);
                             notifyUser(data);
                         });
@@ -276,7 +293,7 @@
         // Setup the click event listeners: simply set the map to Chicago.
         controlUI.addEventListener("click", () => {
             $('#filtermodal').modal('show');
-            $('#notify').toast('show');
+            //$('#notify').toast('show');
         });
 
        
