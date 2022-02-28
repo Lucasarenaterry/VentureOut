@@ -128,10 +128,13 @@
             };
 
         
-
+        Geofence();
         function Geofence(position) {
             lat=position.coords.latitude;
             lng=position.coords.longitude;
+            // lat=55.9321374;
+            // lng=-3.2100789;
+            
             $.ajax({
                             url: "/ingeofence/" + lat + "/" + lng,
                             method: "POST",

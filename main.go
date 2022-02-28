@@ -436,9 +436,10 @@ func main() {
 
 		r.POST("/ingeofence/:lat/:lng", func(c *gin.Context) {
 			lat := c.Param("lat")
-			long := c.Param("long")
+			lng := c.Param("lng")
+			fmt.Printf("%v", lat)
 			
-			rows, err := db.Query("SELECT eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink FROM events WHERE ST_Dwithin ( geography (ST_Point(longitude,latitude)), geography (ST_Point($1, $2)), 60) limit 1", long, lat)
+			rows, err := db.Query("SELECT eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink FROM events WHERE ST_Dwithin ( geography (ST_Point(longitude,latitude)), geography (ST_Point($1, $2)), 60) limit 1", lng, lat)
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
