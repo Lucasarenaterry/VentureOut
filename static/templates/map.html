@@ -49,7 +49,7 @@
     </div>
     </div>
 
-    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast" id="notify" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-body">
           Hello, world! This is a toast message.
           <div class="mt-2 pt-2 border-top">
@@ -74,6 +74,11 @@
 
         //initiate getting user location
         getLocation();
+
+        function notifyUser (data) {
+            $('#notify').toast('hide');
+            $('#notify').toast('show');
+        }
 
         //user gets an error messaged based on the error code
         const getErrorOfPosition = code => {
@@ -152,10 +157,11 @@
                             dataType: 'json',
                             cache: false,
                             scriptCharset: 'utf-8',
-                        }). done (function (jdata) {
-                           var data = $.parseJSON(jdata);
+                        }). done (function (jsondata) {
+                           var data = $.parseJSON(jsondata);
                            //alert(data);
                             console.log(data);
+                            notifyUser(data)
                         });
         };
 
