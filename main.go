@@ -352,7 +352,7 @@ func main() {
 				}
 				fmt.Printf("%v", featureCollection)
 
-				rowss, err := db.Query("SELECT eventtittel, eventtype, description, image, eventdate FROM Events WHERE id = $1", eventid)
+				rowss, err := db.Query("SELECT eventtittel, eventtype, description, image, eventstartdate FROM events WHERE id = $1", eventid)
 				if err != nil {
 					c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error reading Events: %q", err))
