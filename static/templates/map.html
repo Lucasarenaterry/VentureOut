@@ -7,9 +7,11 @@
     {{template "navbar.html"}}
     <div class="toast" style="z-index: 99 !important; position:absolute !important; margin: 0 auto; left: 0; right: 0; margin-top: 8px;" id="notify" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-body">
-          Hello, world! This is a toast message.
+            <p id="event_title"></p>
+            <p>Organized By <p id="organized_by"></p></p>
+            <p>Date <p id="date"></p></p>
           <div class="mt-2 pt-2 border-top">
-            <button type="button" class="btn btn-primary btn-sm">Take action</button>
+            <button type="button" class="btn btn-primary btn-sm">More information</button>
             <button type="button" class="btn btn-secondary btn-sm" onclick="$('#notify').toast('hide');" data-bs-dismiss="toast">Close</button>
           </div>
         </div>
@@ -79,6 +81,15 @@
 
         function notifyUser (data) {
             $('#notify').toast('hide');
+            var event_title = data.eventtittel;
+            var organized_by = data.organizedBy;
+            var date = data.eventstartdate;
+
+            $('#event_title').html(event_title);
+            $('#organized_by').html(organized_by);
+            $('#date').html(date);
+
+
             $('#notify').toast('show');
         }
 
