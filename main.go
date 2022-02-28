@@ -483,7 +483,8 @@ func main() {
 			   EventLink: EventLink,
 		   }
 
-		   eventdata, _ := json.Marshal(eventJson)
+		   eventdata, err := json.Marshal(eventJson)
+		   
 		   c.JSON(200, string(eventdata))
 			
 		})
