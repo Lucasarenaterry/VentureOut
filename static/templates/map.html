@@ -54,7 +54,7 @@
           Hello, world! This is a toast message.
           <div class="mt-2 pt-2 border-top">
             <button type="button" class="btn btn-primary btn-sm">Take action</button>
-            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Close</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="$('#notify').toast('hide');" data-bs-dismiss="toast">Close</button>
           </div>
         </div>
       </div>
@@ -264,7 +264,6 @@
         // Setup the click event listeners: simply set the map to Chicago.
         controlUI.addEventListener("click", () => {
             $('#filtermodal').modal('show');
-            
         });
 
        
