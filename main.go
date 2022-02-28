@@ -434,7 +434,7 @@ func main() {
 			})
 		})
 
-		r.POST("/inGeofence/:lat/:lng", func(c *gin.Context) {
+		r.POST("/ingeofence/:lat/:lng", func(c *gin.Context) {
 			lat := c.Param("lat")
 			long := c.Param("long")
 			
@@ -470,7 +470,7 @@ func main() {
 			}
 
 			eventJson :=  Event{
-				Eventtittel: Eventtittel,
+			   Eventtittel: Eventtittel,
 			   Eventtype: Eventtype,
 			   Description: Description,
 			   OrganizedBy: OrganizedBy,
