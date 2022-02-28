@@ -82,6 +82,8 @@
 
         function notifyUser (data) {
             $('#notify').toast('hide');
+            console.log("test:");
+            console.log(data.event_title);
             var event_title = data.eventtittel;
             var organized_by = data.organizedBy;
             var date = data.eventstartdate;
