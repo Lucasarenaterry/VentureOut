@@ -133,7 +133,7 @@
             lat=position.coords.latitude;
             lng=position.coords.longitude;
             $.ajax({
-                            url: "inGeofence" + lat + "/" + lng + "/",
+                            url: "/inGeofence/" + lat + "/" + lng + "/",
                             method: "POST",
                             contentType:'application/json&apos',
                             dataType: 'json',
