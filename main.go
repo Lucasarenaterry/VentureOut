@@ -1,6 +1,8 @@
 package main
 
 import (
+	//"encoding/json"
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -432,6 +434,60 @@ func main() {
 			})
 		})
 
+		r.POST("/inGeofence/:lat/:lng", func(c *gin.Context) {
+			lat := c.Param("lat")
+			long := c.Param("long")
+			
+			rows, err := db.Query("SELECT eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink FROM events WHERE ST_Dwithin ( geography (ST_Point(longitude,latitude)), geography (ST_Point($1, $2)), 60) limit 1", long, lat)
+			if err != nil {
+				c.String(http.StatusInternalServerError,
+					fmt.Sprintf("Error reading Events: %q", err))
+				return
+			}
+   
+			defer rows.Close()
+			var Eventtittel string 
+			var Eventtype string
+			var Description string 
+			var Image string 
+			var OrganizedBy string 
+			var EventStartdDate string
+			var EventEndDate string
+			var EventStartTime string
+			var EventEndTime string
+			var ContactEmail string
+			var EventLink string
+
+			for rows.Next() {
+				
+				if err := rows.Scan(&Eventtittel, &Eventtype, &Description, &OrganizedBy, &Image, &EventStartdDate, &EventEndDate, &EventStartTime, &EventEndTime, &ContactEmail, &EventLink); 
+				err != nil {
+					c.String(http.StatusInternalServerError,
+						fmt.Sprintf("Error scanning events: %q", err))
+					return
+				}
+				
+			}
+
+			eventJson :=  Event{
+				Eventtittel: Eventtittel,
+			   Eventtype: Eventtype,
+			   Description: Description,
+			   OrganizedBy: OrganizedBy,
+			   Image: Image,
+			   EventStartdDate: EventStartdDate,
+			   EventEndDate: EventEndDate,
+			   EventStartTime: EventStartTime,
+			   EventEndTime: EventEndTime,
+			   ContactEmail: ContactEmail,
+			   EventLink: EventLink,
+		   }
+
+		   eventdata, _ := json.Marshal(eventJson)
+		   c.JSON(200, string(eventdata))
+			
+		})
+
 		r.GET("/addevent", func(c *gin.Context) {
 			c.HTML(http.StatusOK, "addevent.html", gin.H{})
 		})
@@ -441,13 +497,6 @@ func main() {
 		})
 
 		r.GET("/scan", func(c *gin.Context) {
-
-
-
-
-
-
-
 			c.HTML(http.StatusOK, "scan.html", gin.H{})
 		})
 	

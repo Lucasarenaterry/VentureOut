@@ -121,12 +121,30 @@
         function getLocation(){
                 if (navigator.geolocation)
                     {
-                    navigator.geolocation.getCurrentPosition(showError);
+                    navigator.geolocation.getCurrentPosition(Geofence, showError);
                     setTimeout(getLocation, 2000);
                     }
                 else{alert("Geolocation is not supported by this browser.");}
             };
 
+        
+
+        function Geofence(position) {
+            lat=position.coords.latitude;
+            lng=position.coords.longitude;
+            $.ajax({
+                            url: "inGeofence" + lat + "/" + lng + "/",
+                            method: "POST",
+                            contentType:'application/json&apos',
+                            dataType: 'json',
+                            cache: false,
+                            scriptCharset: 'utf-8',
+                        }). done (function (jdata) {
+                           var data = $.parseJSON(jdata);
+                           //alert(data);
+                            console.log(data);
+                        });
+        };
 
         // function CenterControl(controlDiv, map) {
         // // Set CSS for the control border.
