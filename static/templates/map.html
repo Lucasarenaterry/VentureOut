@@ -304,7 +304,7 @@
 
         function CustomControl1(controlDiv, map) {
         // Set CSS for the control border
-        var controlUI1 = document.createElement('empty');
+        var controlUI1 = document.createElement('div');
         //controlUI1.style.backgroundColor = '#f00c0c';
         // controlUI1.style.backgroundColor = '#ffffff';
         // controlUI1.style.borderStyle = 'solid';
@@ -320,8 +320,11 @@
         // controlUI1.title = 'MyLocation';
 
         controlUI1.style.backgroundColor = "#fff";
-        controlUI1.style.border = "2px solid #fff";
+        controlUI1.style.border = "none";
         controlUI1.style.borderRadius = "3px";
+        controlUI1.style.outline = 'none';
+        //controlUI1.style.width = '60px';
+        controlUI1.style.height = '42px';
 
         controlUI1.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
         controlUI1.style.cursor = "pointer";
@@ -332,20 +335,25 @@
         controlDiv.appendChild(controlUI1);
 
         // Set CSS for the control interior
-        var controlText1 = document.createElement('empty');
+        var controlText1 = document.createElement('div');
         // controlText1.style.fontFamily = 'sans-serif';
         // controlText1.style.fontSize = '10px';
         // controlText1.style.paddingLeft = '4px';
         // controlText1.style.paddingRight = '8px';
         // controlText1.style.marginTop = '10px';
-        controlText1.innerHTML = 'MyLocation';
+        //controlText1.innerHTML = 'MyLocation';
         controlText1.style.color = "rgb(25,25,25)";
-        controlText1.style.fontFamily = "Roboto,Arial,sans-serif";
+        controlText1.style.fontFamily = "Font Awesome 5 Free";
         controlText1.style.fontSize = "16px";
         controlText1.style.lineHeight = "38px";
         controlText1.style.paddingLeft = "5px";
         controlText1.style.paddingRight = "5px";
-        //controlText1.innerHTML = `<i class="fas fa-location"></i>`;
+        //controlText1.style.backgroundImage = "url('/static/img/location.svg')";
+        //controlText1.style.backgroundSize = '180px 18px';
+        //controlText1.style.backgroundPosition = '0px 0px';
+        //controlText1.style.backgroundRepeat = 'no-repeat';
+        //controlText1.innerHTML = "<img src=\"/static/img/mylocation.png\" width=\"45px\" height=\"45px\">";
+        controlText1.innerHTML = "<img src=\"/static/img/location.svg\" width=\"35px\" height=\"35px\">";
         controlUI1.appendChild(controlText1);
         
         controlUI1.addEventListener("click", () => {
