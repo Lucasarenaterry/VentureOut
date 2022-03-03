@@ -498,6 +498,10 @@ func main() {
 			
 		})
 
+		r.GET("/calender", func(c *gin.Context) {
+			c.HTML(http.StatusOK, "calender.html", gin.H{})
+		})
+
 		r.GET("/addevent", func(c *gin.Context) {
 			c.HTML(http.StatusOK, "addevent.html", gin.H{})
 		})
