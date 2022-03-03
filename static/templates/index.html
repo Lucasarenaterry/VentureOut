@@ -6,9 +6,29 @@
   <body>
     {{template "navbar.html"}}
     <p style="padding-top: 5px; font-size: 20px; font-weight: bold !important;">Walks in Heriot-Watt University</p>
-    {{ range .events }}
+    
 
-    <div id="walks" class="p-5">
+    <div class="row row-cols-1 row-cols-md-3 g-4" style="margin: 0 auto;">
+      {{ range .events }}
+      <div class="col" style="width: 400px;">
+        <div class="card h-100">
+          <img src="{{.Image}}" onerror="this.onerror;this.src='/static/img/logo.png'" style="height: 250px;" class="card-img-top"/>
+          <div class="card-body">
+            <h5 class="card-title">{{.Eventtittel}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Organized By {{.OrganizedBy}}</h6>
+            <p class="card-text">
+              {{.Description}}
+            </p>
+          </div>
+          <div class="card-footer text-center">
+            <button type="button" style="margin: 0 auto;" class="btn btn-primary">View on map</button>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+
+    <!-- <div id="walks" class="p-5">
     <div class="container">
     <div class="row g-4">
     <div class="col-md-6 col-lg-3">
@@ -22,9 +42,9 @@
     </div>
     </div>
     </div>
-    </div>
+    </div> -->
 
-    {{ end }}
+    
     {{template "navbarmobile.html"}}
     {{template "scripts.html"}}
 
