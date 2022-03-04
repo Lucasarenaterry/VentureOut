@@ -70,7 +70,7 @@ func main() {
 				return
 			}
 
-			rows, err := db.Query("SELECT eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'Month DD, YYYY'), TO_CHAR(eventenddate , 'Month DD, YYYY'), eventstarttime, eventendtime, contactemail, eventlink FROM events")
+			rows, err := db.Query("SELECT eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'Month DD, YYYY'), TO_CHAR(eventenddate , 'Month DD, YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events")
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
@@ -152,7 +152,7 @@ func main() {
 				return
 			}
 
-			rows, err := db.Query("SELECT eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink FROM events")
+			rows, err := db.Query("SELECT eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'Month DD, YYYY'), TO_CHAR(eventenddate , 'Month DD, YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events")
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
