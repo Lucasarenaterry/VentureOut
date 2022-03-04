@@ -560,7 +560,7 @@ func main() {
 					return
 				}
 
-				rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'Month DD, YYYY'), TO_CHAR(eventenddate , 'Month DD, YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events ORDER BY eventstartdate DESC, eventstarttime DESC")
+				rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'Month DD, YYYY'), TO_CHAR(eventenddate , 'Month DD, YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events ORDER BY eventstartdate ASC, eventstarttime ASC")
 				if err != nil {
 					c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error reading Events: %q", err))
