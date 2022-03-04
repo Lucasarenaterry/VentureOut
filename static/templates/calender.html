@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{{template "header.html"}}
+
+  <body>
+    {{template "navbar.html"}}
+    <p style="padding-top: 5px; font-size: 20px; font-weight: bold !important;">Walks in Heriot-Watt University</p>
+    
+
+    <div class="row row-cols-1 row-cols-md-3 g-4" style="margin: 0 auto;">
+      {{ range .events }}
+      <div class="col" style="width: 400px;">
+        <div class="card h-100">
+          <img src="{{.Image}}" onerror="this.onerror;this.src='/static/img/logo.png'" style="height: 250px;" class="card-img-top"/>
+          <div class="card-body">
+            <h5 class="card-title">{{.Eventtittel}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Organized By {{.OrganizedBy}}</h6>
+            <p>Date and Time</p>
+            <p>{{.EventStartdDate}}, {{.EventStartTime}} - {{.EventEndDate}}, {{.EventEndTime}}</p>
+            <p class="card-text">
+              {{.Description}}
+            </p>
+          </div>
+          <div class="card-footer text-center">
+            <button type="button" style="margin: 0 auto;" class="btn btn-primary" onclick="OnMap('{{.Id}}')">View on map</button>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+
+    <!-- <div id="walks" class="p-5">
+    <div class="container">
+    <div class="row g-4">
+    <div class="col-md-6 col-lg-3">
+    <div class="card">
+    <img src="{{.Image}}" onerror="this.onerror;this.src='/static/img/logo.png'" style="width: 300px; height: 150px;"/>
+ 
+    <p>{{.Eventtittel}}</p>
+    <p>{{.Eventtype}}</p>
+    <p>{{.Description}}</p>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div> -->
+
+    
+    {{template "navbarmobile.html"}}
+    {{template "scripts.html"}}
+
+    <!-- activating service-worker -->
+    
+    <script>
+
+      // var events = ' {{ .events }}';
+      // console.log(events);
+        
+      if ('serviceWorker' in navigator) { //checks if service worker is supported on the browser
+          navigator.serviceWorker.register('service-worker.js', {scope: '/'})
+          .then(function(reg) {
+              console.log('Registration successful, scope is:', reg.scope);
+          })
+          .catch(function(error) {
+              console.log('Service worker registration failed, error:', error);
+          });
+      }
+
+      function OnMap(Id) {
+        dataUrl = "/map" + "?OnMapId=" + Id; //example /map?id=2&VentureOut
+        console.log(dataUrl);
+        window.location.href = dataUrl;
+      }
+      
+
+    </script>
+
+  </body>
+
+{{template "footer.html"}}
