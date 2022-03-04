@@ -70,7 +70,7 @@ func main() {
 				return
 			}
 
-			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'Month DD, YYYY'), TO_CHAR(eventenddate , 'Month DD, YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events")
+			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'DD Mon YYYY'), TO_CHAR(eventenddate , 'DD Mon YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events")
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
@@ -538,7 +538,7 @@ func main() {
 					return
 				}
 
-				rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'Month DD, YYYY'), TO_CHAR(eventenddate , 'Month DD, YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events ORDER BY eventstartdate ASC, eventstarttime ASC")
+				rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'DD Mon YYYY'), TO_CHAR(eventenddate , 'DD Mon YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events ORDER BY eventstartdate ASC, eventstarttime ASC")
 				if err != nil {
 					c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error reading Events: %q", err))
