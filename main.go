@@ -146,9 +146,9 @@ func main() {
 		})
 	})
 
-	r.GET("", func(c *gin.Context) {
-		c.Redirect(http.StatusFound, "/")
-	})
+	// r.GET("", func(c *gin.Context) {
+	// 	c.Redirect(http.StatusFound, "/")
+	// })
 
 	r.GET("/home", func(c *gin.Context) {
 		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
