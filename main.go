@@ -632,6 +632,8 @@ func main() {
 			})
 		})
 
+		
+
 		r.GET("/addevent", func(c *gin.Context) {
 			c.HTML(http.StatusOK, "addevent.html", gin.H{})
 		})
