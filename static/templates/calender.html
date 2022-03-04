@@ -6,6 +6,7 @@
   <body>
     {{template "navbar.html"}}
     <p style="padding-top: 5px; font-size: 20px; font-weight: bold !important;">Walks in Heriot-Watt University</p>
+    <div style="width: 50%; margin:0 auto;">
     <form>
         <div class="row mb-4">
             <div class="col">
@@ -23,7 +24,7 @@
           </div>
 
     </form>
-
+    </div>
     <div class="row row-cols-1 row-cols-md-3 g-4" style="margin: 0 auto;">
       {{ range .events }}
       <div class="col" style="width: 400px;">
