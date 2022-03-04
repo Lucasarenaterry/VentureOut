@@ -102,20 +102,6 @@ func main() {
 						fmt.Sprintf("Error scanning events: %q", err))
 					return
 				}
-				// event := &Event{
-				// 	Eventtittel: Eventtittel,
-				// 	Eventtype: Eventtype,
-				// 	Description: Description,
-				// 	Image: Image,
-				// 	Date: Date,
-				// }
-				// const (
-				// 	layoutISO = "2006-01-02"
-				// 	layoutUS  = "January 2, 2006"
-				// )
-				//  var dateformat = EventStartdDate
-				//  t, _ := time.Parse(layoutISO, dateformat)
-				//  EventStartdDate = t.Format(layoutUS)
 				
 				 events = append(events, Event{
 					 	Id: Id,
@@ -132,16 +118,8 @@ func main() {
 						EventLink: EventLink,
 					})
 			}
-				
-			
-			
-
+	
 		c.HTML(http.StatusOK, "index.html", gin.H{
-			// "eventtittel": Eventtittel,
-			// "eventtype": Eventtype,
-			// "description": Description,
-			// "image": Image,
-			// "date": Date,
 			"events": events,
 		})
 	})
