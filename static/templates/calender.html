@@ -5,24 +5,27 @@
 
   <body>
     {{template "navbar.html"}}
-    <div style="width: 50%; margin:0 auto; padding-top: 20px;">
-    <form>
-        <div class="row mb-4">
-            <div class="col">
-              <div class="form-outline">
-                <input type="date" id="form8Example3" class="form-control" />
-                <label class="form-label" for="form8Example3">Date From</label>
-              </div>
-            </div>
-            <div class="col">
-                <div class="form-outline">
-                  <input type="date" id="form8Example3" class="form-control" />
-                  <label class="form-label" for="form8Example3">Date To</label>
-                </div>
-            </div>
+    <div class="d-flex align-items-center justify-content-center" style="width: 50%; margin:0 auto; padding-top: 20px;">
+    <!-- <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" action="/calender"> -->
+      <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" action="/calender">
+        <div class="col-12">
+          <div class="form-outline">
+            <input type="date" id="form8Example3" name="datefrom" class="form-control" required>
+            <label class="form-label" for="form8Example3">Date From</label>
           </div>
-
-    </form>
+        </div>
+      
+        <div class="col-12">
+          <div class="form-outline">
+            <input type="date" id="form8Example3"  name="dateto" class="form-control" required>
+            <label class="form-label" for="form8Example3">Date To</label>
+          </div>
+        </div>
+      
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
     </div>
     <div class="row row-cols-1 row-cols-md-3 g-4" style="margin: 0 auto;">
       {{ range .events }}
