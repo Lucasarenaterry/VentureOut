@@ -23,7 +23,7 @@
             </p>
           </div>
           <div class="card-footer text-center">
-            <button type="button" style="margin: 0 auto;" class="btn btn-primary">View on map</button>
+            <button type="button" style="margin: 0 auto;" class="btn btn-primary" onclick="OnMap('{{.Id}}')">View on map</button>
           </div>
         </div>
       </div>
@@ -65,6 +65,12 @@
           .catch(function(error) {
               console.log('Service worker registration failed, error:', error);
           });
+      }
+
+      function OnMap(Id) {
+        dataUrl = "/map" + "?OnMapId=" + Id; //example /map?id=2&VentureOut
+        console.log(dataUrl);
+        window.location.href = dataUrl;
       }
       
 

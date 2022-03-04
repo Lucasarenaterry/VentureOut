@@ -70,7 +70,7 @@ func main() {
 				return
 			}
 
-			rows, err := db.Query("SELECT eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'Month DD, YYYY'), TO_CHAR(eventenddate , 'Month DD, YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events")
+			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'Month DD, YYYY'), TO_CHAR(eventenddate , 'Month DD, YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events")
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
@@ -78,6 +78,7 @@ func main() {
 			}
    
 			defer rows.Close()
+			var Id int
 			var Eventtittel string 
 			var Eventtype string
 			var Description string 
@@ -95,7 +96,7 @@ func main() {
 
 			for rows.Next() {
 				
-				if err := rows.Scan(&Eventtittel, &Eventtype, &Description, &OrganizedBy, &Image, &EventStartdDate, &EventEndDate, &EventStartTime, &EventEndTime, &ContactEmail, &EventLink); 
+				if err := rows.Scan(&Id, &Eventtittel, &Eventtype, &Description, &OrganizedBy, &Image, &EventStartdDate, &EventEndDate, &EventStartTime, &EventEndTime, &ContactEmail, &EventLink); 
 				err != nil {
 					c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error scanning events: %q", err))
@@ -117,6 +118,7 @@ func main() {
 				//  EventStartdDate = t.Format(layoutUS)
 				
 				 events = append(events, Event{
+					 	Id: Id,
 					 	Eventtittel: Eventtittel,
 						Eventtype: Eventtype,
 						Description: Description,
@@ -326,7 +328,7 @@ func main() {
 					fmt.Sprintf("Error creating database table: %q", err))
 				return
 			}
-
+			OnMapId := c.Query("OnMapId")
 			eventid := c.Query("id")
 			fmt.Println("Event id is", eventid)
 			var qrscanned bool
@@ -381,6 +383,45 @@ func main() {
 				}
 
 				qrscanned = true
+			} else if OnMapId != "" {
+				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location' - 'geofence', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, geofence, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink) WHERE id = $1", OnMapId)
+					if err != nil {
+						c.String(http.StatusInternalServerError,
+						fmt.Sprintf("Error reading Events: %q", err))
+					return
+				}
+				
+				defer rows.Close()
+				
+				for rows.Next() {
+					if err := rows.Scan(&featureCollection); 
+						err != nil {
+							c.String(http.StatusInternalServerError,
+								fmt.Sprintf("Error scanning events: %q", err))
+							return
+						}
+				}
+				fmt.Printf("%v", featureCollection)
+
+				rowss, err := db.Query("SELECT eventtittel, eventtype, description, image, eventstartdate FROM events WHERE id = $1", OnMapId)
+				if err != nil {
+					c.String(http.StatusInternalServerError,
+						fmt.Sprintf("Error reading Events: %q", err))
+					return
+				}
+	
+				defer rowss.Close()
+				
+
+				for rowss.Next() {
+				
+					if err := rowss.Scan(&Eventtittel, &Eventtype, &Description, &Image, &Date); 
+					err != nil {
+						c.String(http.StatusInternalServerError,
+							fmt.Sprintf("Error scanning events: %q", err))
+						return
+					}
+				}
 			} else {
 				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location' - 'geofence', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, geofence, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink)")
 					if err != nil {
