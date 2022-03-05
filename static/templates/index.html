@@ -5,9 +5,19 @@
 
   <body>
     {{template "navbar.html"}}
-    <p style="padding-top: 5px; font-size: 20px; font-weight: bold !important;">Walks in Heriot-Watt University</p>
-    
-
+    <!-- <p style="padding-top: 5px; font-size: 20px; font-weight: bold !important;">Walks in Heriot-Watt University</p> -->
+    <form method="POST" action="/home">
+    <div class="input-group d-flex align-items-center justify-content-center" style="padding-top: 10px;">
+      <div class="form-outline">
+        <input type="search" id="form1" name="searchEvent" class="form-control" />
+        <label class="form-label" for="form1">Search</label>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+   </form>
+   <p id="nodata" class="d-flex align-items-center justify-content-center"></p>
     <div class="row row-cols-1 row-cols-md-3 g-4" style="margin: 0 auto;">
       {{ range .events }}
       <div class="col" style="width: 400px;">
@@ -54,8 +64,11 @@
     
     <script>
 
-      // var events = ' {{ .events }}';
-      // console.log(events);
+      var events = '{{ .events }}';
+      console.log(events.length);
+      if (events.length === 2) {
+        document.getElementById("nodata").innerHTML = "No events found in search";
+      };
         
       if ('serviceWorker' in navigator) { //checks if service worker is supported on the browser
           navigator.serviceWorker.register('service-worker.js', {scope: '/'})

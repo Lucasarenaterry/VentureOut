@@ -128,6 +128,76 @@ func main() {
 	// 	c.Redirect(http.StatusFound, "/")
 	// })
 
+	r.POST("/home", func(c *gin.Context) {
+		filterSlice := c.Request.FormValue("searchEvent") //gets all the eventtypes in a slice string format
+		split := strings.Fields(filterSlice)
+		converttodb := strings.Join(split, "%,") //convert to string format that db can read
+		searchevents := converttodb + "%"
+		fmt.Printf("filter %v", searchevents)
+		
+		
+		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
+					err != nil {
+				c.String(http.StatusInternalServerError,
+					fmt.Sprintf("Error creating database table: %q", err))
+				return
+			}
+
+			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'DD Mon YYYY'), TO_CHAR(eventenddate , 'DD Mon YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events WHERE eventtittel ILIKE ANY (ARRAY[$1])", searchevents)
+			if err != nil {
+				c.String(http.StatusInternalServerError,
+					fmt.Sprintf("Error reading Events: %q", err))
+				return
+			}
+   
+			defer rows.Close()
+			var Id string
+			var Eventtittel string 
+			var Eventtype string
+			var Description string 
+			var Image string 
+			var OrganizedBy string 
+			var EventStartdDate string
+			var EventEndDate string
+			var EventStartTime string
+			var EventEndTime string
+			var ContactEmail string
+			var EventLink string
+
+			
+			events := make([]Event, 0)
+
+			for rows.Next() {
+				
+				if err := rows.Scan(&Id, &Eventtittel, &Eventtype, &Description, &OrganizedBy, &Image, &EventStartdDate, &EventEndDate, &EventStartTime, &EventEndTime, &ContactEmail, &EventLink); 
+				err != nil {
+					c.String(http.StatusInternalServerError,
+						fmt.Sprintf("Error scanning events: %q", err))
+					return
+				}
+				
+				 events = append(events, Event{
+					 	Id: Id,
+					 	Eventtittel: Eventtittel,
+						Eventtype: Eventtype,
+						Description: Description,
+						OrganizedBy: OrganizedBy,
+						Image: Image,
+						EventStartdDate: EventStartdDate,
+						EventEndDate: EventEndDate,
+						EventStartTime: EventStartTime,
+						EventEndTime: EventEndTime,
+						ContactEmail: ContactEmail,
+						EventLink: EventLink,
+					})
+			}
+	
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"events": events,
+		})
+
+	})
+
 	r.GET("/home", func(c *gin.Context) {
 		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
 					err != nil {
