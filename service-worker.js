@@ -37,7 +37,7 @@ self.addEventListener('fetch', function(event) {
 
 const CacheName = 'VentureOut-cache-v1';
 const CacheUrls = [
-    '/',
+    './',
     '/static/css/main.css', 
     '/static/css/mdb.dark.min.css',
     '/static/css/mdb.dark.rtl.min.css',
