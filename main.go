@@ -132,7 +132,7 @@ func main() {
 		filterSlice := c.Request.FormValue("searchEvent") //gets all the eventtypes in a slice string format
 		split := strings.Fields(filterSlice)
 		converttodb := strings.Join(split, "%,") //convert to string format that db can read
-		searchevents := converttodb + "%"
+		searchevents := "{" + converttodb + "%}"
 		fmt.Printf("filter %v", searchevents)
 		
 		
@@ -143,7 +143,7 @@ func main() {
 				return
 			}
 
-			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'DD Mon YYYY'), TO_CHAR(eventenddate , 'DD Mon YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events WHERE eventtittel ILIKE ANY (ARRAY[$1])", searchevents)
+			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'DD Mon YYYY'), TO_CHAR(eventenddate , 'DD Mon YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events WHERE eventtittel ILIKE ANY ($1)", searchevents)
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
@@ -190,7 +190,9 @@ func main() {
 						ContactEmail: ContactEmail,
 						EventLink: EventLink,
 					})
+					fmt.Printf("filter %v", Eventtittel)
 			}
+			
 	
 		c.HTML(http.StatusOK, "index.html", gin.H{
 			"events": events,
