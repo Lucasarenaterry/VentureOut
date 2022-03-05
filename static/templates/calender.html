@@ -27,6 +27,7 @@
         </div>
       </form>
     </div>
+    <p id="nodata" class="d-flex align-items-center justify-content-center"></p>
     <div class="row row-cols-1 row-cols-md-3 g-4" style="margin: 0 auto;">
       {{ range .events }}
       <div class="col" style="width: 400px;">
@@ -73,7 +74,11 @@
     
     <script>
 
-      // var events = ' {{ .events }}';
+      var events = '{{ .events }}';
+      console.log(events);
+      if (events = '[]') {
+        document.getElementById("nodata").innerHTML = "No events in the date range selected";
+      };
       // console.log(events);
         
       if ('serviceWorker' in navigator) { //checks if service worker is supported on the browser
