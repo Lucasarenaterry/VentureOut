@@ -22,7 +22,7 @@ import (
 )
 
 type Event struct {
-	Id          int `json:"Id"`
+	Id          string `json:"Id"`
 	Eventtittel string `json:"Eventtittel"`
 	Eventtype   string `json:"Eventtype"`
 	Description string `json:"Description"`
@@ -78,7 +78,7 @@ func main() {
 			}
    
 			defer rows.Close()
-			var Id int
+			var Id string
 			var Eventtittel string 
 			var Eventtype string
 			var Description string 
@@ -144,7 +144,7 @@ func main() {
 			}
    
 			defer rows.Close()
-			var Id int
+			var Id string
 			var Eventtittel string 
 			var Eventtype string
 			var Description string 
@@ -452,12 +452,15 @@ func main() {
 			})
 		})
 
-		r.POST("/ingeofence/:lat/:lng", func(c *gin.Context) {
+		
+
+		r.POST("/ingeofence/:lat/:lng/:geofencediscovered", func(c *gin.Context) {
 			lat := c.Param("lat")
 			lng := c.Param("lng")
+			GeofenceDiscovered := c.Param("geofencediscovered")
 			fmt.Printf("%v", lat)
 			
-			rows, err := db.Query("SELECT eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink FROM events WHERE ST_Dwithin ( geography (ST_Point(longitude,latitude)), geography (ST_Point($1, $2)), 60) limit 1", lng, lat)
+			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink FROM events WHERE ST_Dwithin ( geography (ST_Point(longitude,latitude)), geography (ST_Point($1, $2)), 60) limit 1", lng, lat)
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
@@ -476,19 +479,20 @@ func main() {
 			var EventEndTime string
 			var ContactEmail string
 			var EventLink string
+			var Id string
 
 			for rows.Next() {
 				
-				if err := rows.Scan(&Eventtittel, &Eventtype, &Description, &OrganizedBy, &Image, &EventStartdDate, &EventEndDate, &EventStartTime, &EventEndTime, &ContactEmail, &EventLink); 
+				if err := rows.Scan(&Id, &Eventtittel, &Eventtype, &Description, &OrganizedBy, &Image, &EventStartdDate, &EventEndDate, &EventStartTime, &EventEndTime, &ContactEmail, &EventLink); 
 				err != nil {
 					c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error scanning events: %q", err))
 					return
 				}
-				
 			}
 
 			eventJson :=  Event{
+			   Id: Id,	
 			   Eventtittel: Eventtittel,
 			   Eventtype: Eventtype,
 			   Description: Description,
@@ -504,8 +508,9 @@ func main() {
 
 		   eventdata, err := json.Marshal(eventJson)
 		   
-		   c.JSON(200, string(eventdata))
-			
+		   if Id != GeofenceDiscovered {
+		   	c.JSON(200, string(eventdata))
+		   }
 		})
 
 		r.POST("/calender", func(c *gin.Context) {
@@ -530,7 +535,7 @@ func main() {
 				}
 	
 				defer rows.Close()
-				var Id int
+				var Id string
 				var Eventtittel string 
 				var Eventtype string
 				var Description string 
@@ -595,7 +600,7 @@ func main() {
 				}
 	
 				defer rows.Close()
-				var Id int
+				var Id string
 				var Eventtittel string 
 				var Eventtype string
 				var Description string 

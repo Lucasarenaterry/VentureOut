@@ -70,6 +70,7 @@
         // console.log(filterTypes);
 
         var featureCollection = '{{.featureCollection}}';
+        var geofencediscovered = 0;
         console.log(featureCollection);
         
         let map;
@@ -179,7 +180,7 @@
             // lng=-3.2100789;
             
             $.ajax({
-                            url: "/ingeofence/" + lat + "/" + lng,
+                            url: "/ingeofence/" + lat + "/" + lng + "/" + geofencediscovered,
                             method: "POST",
                             contentType:'application/json&apos',
                             dataType: 'json',
@@ -188,6 +189,7 @@
                         }). done (function (jsondata) {
                            var data = $.parseJSON(jsondata);
                            geofencedata = data;
+                           geofencediscovered = data.id;
                            console.log("geo");
                            console.log(geofencedata);
                            console.log(data);
