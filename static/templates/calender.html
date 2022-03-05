@@ -75,8 +75,8 @@
     <script>
 
       var events = '{{ .events }}';
-      console.log(events);
-      if (events = '[]') {
+      console.log(events.length);
+      if (events.length === 2) {
         document.getElementById("nodata").innerHTML = "No events in the date range selected";
       };
       // console.log(events);
