@@ -480,6 +480,7 @@ func main() {
 			var ContactEmail string
 			var EventLink string
 			var Id string
+			var FoundGeofence bool = false
 
 			for rows.Next() {
 				
@@ -489,6 +490,7 @@ func main() {
 						fmt.Sprintf("Error scanning events: %q", err))
 					return
 				}
+				FoundGeofence = true
 			}
 
 			eventJson :=  Event{
@@ -508,7 +510,7 @@ func main() {
 
 		   eventdata, err := json.Marshal(eventJson)
 		   
-		   if Id != GeofenceDiscovered {
+		   if FoundGeofence && Id != GeofenceDiscovered {
 		   	c.JSON(200, string(eventdata))
 		   }
 		})
