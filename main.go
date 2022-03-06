@@ -63,14 +63,28 @@ func main() {
 	r.StaticFile("service-worker.js", "./service-worker.js")
 
 	r.GET("/", func(c *gin.Context) {
-		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
-					err != nil {
-				c.String(http.StatusInternalServerError,
+		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT, latitude NUMERIC(10,8), longitude NUMERIC(11,8))"); 
+				err != nil {
+					c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error creating database table: %q", err))
 				return
 			}
 
-			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'DD Mon YYYY'), TO_CHAR(eventenddate , 'DD Mon YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events")
+			if _, err := db.Exec("CREATE TABLE IF NOT EXISTS archive (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT, latitude NUMERIC(10,8), longitude NUMERIC(11,8))"); 
+			err != nil {
+				c.String(http.StatusInternalServerError,
+				fmt.Sprintf("Error creating database table: %q", err))
+			return
+			}
+
+			if _, err := db.Exec("WITH moved_rows AS ( DELETE FROM events WHERE displaytill < now() RETURNING * ) INSERT INTO archive SELECT * FROM moved_rows"); 
+			err != nil {
+				c.String(http.StatusInternalServerError,
+				fmt.Sprintf("Error creating database table: %q", err))
+			return
+			}
+
+			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'DD Mon YYYY'), TO_CHAR(eventenddate , 'DD Mon YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events WHERE displaytill > now()")
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
@@ -136,9 +150,9 @@ func main() {
 		fmt.Printf("filter %v", searchevents)
 		
 		
-		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
-					err != nil {
-				c.String(http.StatusInternalServerError,
+		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT)"); 
+				err != nil {
+					c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error creating database table: %q", err))
 				return
 			}
@@ -201,11 +215,25 @@ func main() {
 	})
 
 	r.GET("/home", func(c *gin.Context) {
-		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
-					err != nil {
-				c.String(http.StatusInternalServerError,
+		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT)"); 
+				err != nil {
+					c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error creating database table: %q", err))
 				return
+			}
+
+			if _, err := db.Exec("CREATE TABLE IF NOT EXISTS archive (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT, latitude NUMERIC(10,8), longitude NUMERIC(11,8))"); 
+			err != nil {
+				c.String(http.StatusInternalServerError,
+				fmt.Sprintf("Error creating database table: %q", err))
+			return
+			}
+
+			if _, err := db.Exec("WITH moved_rows AS ( DELETE FROM events WHERE displaytill < now() RETURNING * ) INSERT INTO archive SELECT * FROM moved_rows"); 
+			err != nil {
+				c.String(http.StatusInternalServerError,
+				fmt.Sprintf("Error creating database table: %q", err))
+			return
 			}
 
 			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'DD Mon YYYY'), TO_CHAR(eventenddate , 'DD Mon YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events")
@@ -594,9 +622,9 @@ func main() {
 				//fmt.Printf("filter %v", datefrom)
 				//fmt.Printf("filter %v", dateto)
 
-				if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
-						err != nil {
-					c.String(http.StatusInternalServerError,
+				if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT)"); 
+					err != nil {
+						c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error creating database table: %q", err))
 					return
 				}
@@ -659,12 +687,12 @@ func main() {
 		r.GET("/calender", func(c *gin.Context) {
 			
 
-				if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, image TEXT, location GEOMETRY(POINT,4326), eventdate DATE, eventtime TIME)"); 
-						err != nil {
-					c.String(http.StatusInternalServerError,
-						fmt.Sprintf("Error creating database table: %q", err))
-					return
-				}
+			if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT)"); 
+			err != nil {
+				c.String(http.StatusInternalServerError,
+				fmt.Sprintf("Error creating database table: %q", err))
+			return
+			}
 
 				rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'DD Mon YYYY'), TO_CHAR(eventenddate , 'DD Mon YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events ORDER BY eventstartdate ASC, eventstarttime ASC")
 				if err != nil {
