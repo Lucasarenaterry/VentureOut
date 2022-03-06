@@ -194,8 +194,10 @@
                            console.log("geo");
                            console.log(geofencedata);
                            console.log(data);
-                           if (data== "null"){
-                           notifyUser(data);
+                           if (data == "null"){
+                            console.log("user is not in Geofence");
+                           } else {
+                            notifyUser(data);
                            }
                         });
         };
