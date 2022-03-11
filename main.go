@@ -63,14 +63,14 @@ func main() {
 	r.StaticFile("service-worker.js", "./service-worker.js")
 
 	r.GET("/", func(c *gin.Context) {
-		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT, latitude NUMERIC(10,8), longitude NUMERIC(11,8), icon varchar(45))"); 
+		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT, latitude NUMERIC(10,8), longitude NUMERIC(11,8))"); 
 				err != nil {
 					c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error creating database table: %q", err))
 				return
 			}
 
-			if _, err := db.Exec("CREATE TABLE IF NOT EXISTS archive (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT, latitude NUMERIC(10,8), longitude NUMERIC(11,8), icon varchar(45))"); 
+			if _, err := db.Exec("CREATE TABLE IF NOT EXISTS archive (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT, latitude NUMERIC(10,8), longitude NUMERIC(11,8))"); 
 			err != nil {
 				c.String(http.StatusInternalServerError,
 				fmt.Sprintf("Error creating database table: %q", err))
@@ -212,14 +212,14 @@ func main() {
 	})
 
 	r.GET("/home", func(c *gin.Context) {
-		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT, latitude NUMERIC(10,8), longitude NUMERIC(11,8), icon varchar(45))"); 
+		if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT, latitude NUMERIC(10,8), longitude NUMERIC(11,8))"); 
 				err != nil {
 					c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error creating database table: %q", err))
 				return
 			}
 
-			if _, err := db.Exec("CREATE TABLE IF NOT EXISTS archive (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT, latitude NUMERIC(10,8), longitude NUMERIC(11,8), icon varchar(45))"); 
+			if _, err := db.Exec("CREATE TABLE IF NOT EXISTS archive (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT, latitude NUMERIC(10,8), longitude NUMERIC(11,8))"); 
 			err != nil {
 				c.String(http.StatusInternalServerError,
 				fmt.Sprintf("Error creating database table: %q", err))

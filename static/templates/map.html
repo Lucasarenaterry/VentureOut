@@ -321,7 +321,7 @@
                 }
             });
 
-             
+            
 
         
             // map.data.loadGeoJson('static/HWUevents.geojson');
@@ -329,12 +329,15 @@
             map.data.addGeoJson(geojson);
 
             map.data.setStyle(function(feature) {
+                var type = feature.getProperty('eventtype');
+                if (type == "ski"){
                 var event = {
                     text: "\ue509", // codepoint from https://fonts.google.com/icons
                     fontFamily: "Material Icons",
                     color: "#ffffff",
                     fontSize: "18px",
                 };
+                }
              return {label: event};
             });
 
