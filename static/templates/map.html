@@ -328,6 +328,17 @@
             var geojson = JSON.parse(featureCollection);
             map.data.addGeoJson(geojson);
 
+            map.data.setStyle(function(feature) {
+                var event = {
+                    text: "\ue509", // codepoint from https://fonts.google.com/icons
+                    fontFamily: "Material Icons",
+                    color: "#ffffff",
+                    fontSize: "18px",
+                };
+             return {label: event};
+            });
+
+
             map.data.addListener('click', function (event) {
                 var event_title = event.feature.getProperty('eventtittel');
                 var organized_by = event.feature.getProperty('organizedby');
