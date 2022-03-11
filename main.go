@@ -422,7 +422,13 @@ func main() {
 			var Eventtype string
 			var Description string 
 			var Image string 
-			var Date string 
+			var OrganizedBy string 
+			var EventStartdDate string
+			var EventEndDate string
+			var EventStartTime string
+			var EventEndTime string
+			var ContactEmail string
+			var EventLink string
 
 			if eventid != "" {
 				
@@ -445,7 +451,7 @@ func main() {
 				}
 				fmt.Printf("%v", featureCollection)
 
-				rowss, err := db.Query("SELECT eventtittel, eventtype, description, image, eventstartdate FROM events WHERE id = $1", eventid)
+				rowss, err := db.Query("SELECT eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'DD Mon YYYY'), TO_CHAR(eventenddate , 'DD Mon YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events WHERE id = $1", eventid)
 				if err != nil {
 					c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error reading Events: %q", err))
@@ -457,7 +463,7 @@ func main() {
 
 				for rowss.Next() {
 				
-					if err := rowss.Scan(&Eventtittel, &Eventtype, &Description, &Image, &Date); 
+					if err := rowss.Scan(&Eventtittel, &Eventtype, &Description, &OrganizedBy, &Image, &EventStartdDate, &EventEndDate, &EventStartTime, &EventEndTime, &ContactEmail, &EventLink); 
 					err != nil {
 						c.String(http.StatusInternalServerError,
 							fmt.Sprintf("Error scanning events: %q", err))
@@ -540,11 +546,18 @@ func main() {
 				"featureCollection": featureCollection, 
 				"filterTypes": filterTypes, 
 				"qrscanned": qrscanned,
+			
 				"Eventtittel": Eventtittel,
 				"Eventtype": Eventtype,
 				"Description": Description,
+				"OrganizedBy": OrganizedBy,
 				"Image": Image,
-				"Date": Date,
+				"EventStartdDate": EventStartdDate,
+				"EventEndDate": EventEndDate,
+				"EventStartTime": EventStartTime,
+				"EventEndTime": EventEndTime,
+				"ContactEmail": ContactEmail,
+				"EventLink": EventLink,
 			})
 		})
 

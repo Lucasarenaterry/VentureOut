@@ -410,13 +410,21 @@
                     // var organized_by = event.feature.getProperty('organizedBy');
                 var image = "{{.Image}}";
                 var description = "{{.Description}}";
-                var date = "{{.Date}}";
+                var EventStartdDate = "{{.EventStartdDate}}";
+                var EventEndDate = "{{.EventEndDate}}";
+                var EventStartTime = "{{.EventStartTime}}";
+                var EventEndTime = "{{.EventEndTime}}";
+                var EventLink = "{{.EventLink}}";
                 qrscanned = false;
                 $('#event_title').html(event_title);
                 $('#organized_by').html(organized_by);
                 $('#image').attr("src", image);
                 $('#description').html(description);
-                $('#date').html(date);
+                $('#startdate').html(EventStartdDate);
+                $('#enddate').html(EventEndDate);
+                $('#starttime').html(EventStartTime);
+                $('#endtime').html(EventEndTime);
+                $('#eventlink').html(EventLink);
                   
                 $('#infomodal').modal('show');
             
