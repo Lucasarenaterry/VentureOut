@@ -202,75 +202,6 @@
                         });
         };
 
-        // function CenterControl(controlDiv, map) {
-        // // Set CSS for the control border.
-        // const controlUI = document.createElement("div");
-
-        // controlUI.style.backgroundColor = "#fff";
-        // controlUI.style.border = "2px solid #fff";
-        // controlUI.style.borderRadius = "3px";
-
-        // controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
-        // controlUI.style.cursor = "pointer";
-        // controlUI.style.marginTop = "8px";
-        // controlUI.style.marginBottom = "22px";
-        // controlUI.style.textAlign = "center";
-        // controlUI.title = "Filter Events";
-        // controlDiv.appendChild(controlUI);
-
-        // // Set CSS for the control interior.
-        // const controlText = document.createElement("div");
-
-        // controlText.style.color = "rgb(25,25,25)";
-        // controlText.style.fontFamily = "Roboto,Arial,sans-serif";
-        // controlText.style.fontSize = "16px";
-        // controlText.style.lineHeight = "38px";
-        // controlText.style.paddingLeft = "5px";
-        // controlText.style.paddingRight = "5px";
-        // controlText.innerHTML = "Filter Events";
-        // controlUI.appendChild(controlText);
-        // // Setup the click event listeners: simply set the map to Chicago.
-        // controlUI.addEventListener("click", () => {
-        //     $('#filtermodal').modal('show');
-            
-        // });
-        // }
-
-        // function MyLocation(controlDiv, map) {
-        // // Set CSS for the control border.
-        // const controlUI1 = document.createElement("div");
-
-        // controlUI1.style.backgroundColor = "#fff";
-        // controlUI1.style.border = "2px solid #fff";
-        // controlUI1.style.borderRadius = "3px";
-
-        // controlUI1.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
-        // controlUI1.style.cursor = "pointer";
-        // controlUI1.style.marginTop = "8px";
-        // controlUI1.style.marginBottom = "22px";
-        // controlUI1.style.textAlign = "center";
-        // controlUI1.title = "Filter Events";
-        // controlDiv.appendChild(controlUI1);
-
-        // // Set CSS for the control interior.
-        // const controlText1 = document.createElement("div");
-
-        // controlText1.style.color = "rgb(25,25,25)";
-        // controlText1.style.fontFamily = "Roboto,Arial,sans-serif";
-        // controlText1.style.fontSize = "16px";
-        // controlText1.style.lineHeight = "38px";
-        // controlText1.style.paddingLeft = "5px";
-        // controlText1.style.paddingRight = "5px";
-        // // controlText.innerHTML = `<i class="fas fa-location"></i>`;
-        // controlText1.innerHTML = "hi";
-        // controlUI1.appendChild(controlText1);
-        // // Setup the click event listeners: simply set the map to Chicago.
-        // controlUI1.addEventListener("click", () => {
-           
-            
-        // });
-        // }
-
         function CustomControl(controlDiv, map) {
          // Set CSS for the control border.
         const controlUI = document.createElement("div");
@@ -312,19 +243,6 @@
         function CustomControl1(controlDiv, map) {
         // Set CSS for the control border
         var controlUI1 = document.createElement('div');
-        //controlUI1.style.backgroundColor = '#f00c0c';
-        // controlUI1.style.backgroundColor = '#ffffff';
-        // controlUI1.style.borderStyle = 'solid';
-        // controlUI1.style.borderWidth = '1px';
-        // controlUI1.style.borderColor = '#ccc';
-        // controlUI1.style.borderRadius = "23px";
-        // controlUI1.style.height = '33px';
-        // controlUI1.style.marginTop = '5px';
-        // controlUI1.style.marginLeft = '-6px';
-        // controlUI1.style.paddingTop = '1px';
-        // controlUI1.style.cursor = 'pointer';
-        // controlUI1.style.textAlign = 'center';
-        // controlUI1.title = 'MyLocation';
 
         controlUI1.style.backgroundColor = "#fff";
         controlUI1.style.border = "none";
@@ -344,12 +262,6 @@
 
         // Set CSS for the control interior
         var controlText1 = document.createElement('div');
-        // controlText1.style.fontFamily = 'sans-serif';
-        // controlText1.style.fontSize = '10px';
-        // controlText1.style.paddingLeft = '4px';
-        // controlText1.style.paddingRight = '8px';
-        // controlText1.style.marginTop = '10px';
-        //controlText1.innerHTML = 'MyLocation';
         controlText1.style.color = "blue";
         controlText1.style.fontFamily = "Font Awesome 5 Free";
         controlText1.style.fontSize = "16px";
@@ -420,13 +332,25 @@
                 var organized_by = event.feature.getProperty('organizedby');
                 var image = event.feature.getProperty('image');
                 var description = event.feature.getProperty('description');
-                var date = event.feature.getProperty('eventstartdate');
+                var startdate = event.feature.getProperty('eventstartdate');
+                var enddate = event.feature.getProperty('eventenddate');
+                var starttime = event.feature.getProperty('eventstarttime');
+                var endtime = event.feature.getProperty('eventendtime');
+                var eventlink = event.feature.getProperty('eventlink');
+                let s = new Date(startdate);
+                var sd = s.toLocaleDateString("en-GB", {year: 'numeric', month: 'short', day: 'numeric' });
+                let e = new Date(enddate);
+                var ed = s.toLocaleDateString("en-GB", {year: 'numeric', month: 'short', day: 'numeric' });
 
                 $('#event_title').html(event_title);
                 $('#organized_by').html(organized_by);
                 $('#image').attr("src", image);
                 $('#description').html(description);
-                $('#date').html(date);
+                $('#startdate').html(sd);
+                $('#enddate').html(ed);
+                $('#starttime').html(starttime);
+                $('#endtime').html(endtime);
+                $('#eventlink').html(eventlink);
                 $('#infomodal').modal('show');
             });
 
