@@ -339,7 +339,9 @@
                 bounds.extend(new google.maps.LatLng(latitude, longitude));
                 }
                 //zooms out the map to fit all events in 
+                if (bounds != null){
                 map.fitBounds(bounds);
+                }
             
                 var type = feature.getProperty('eventtype');
                 if (type == "ski"){
