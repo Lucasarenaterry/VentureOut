@@ -331,12 +331,19 @@
             map.data.setStyle(function(feature) {
                 var type = feature.getProperty('eventtype');
                 if (type == "ski"){
-                var event = {
+                    var event = {
                     text: "\ue509", // codepoint from https://fonts.google.com/icons
                     fontFamily: "Material Icons",
                     color: "#ffffff",
                     fontSize: "18px",
-                };
+                    };
+                } else if (type == "walk"){
+                    var event = {
+                    text: "\ue536", 
+                    fontFamily: "Material Icons",
+                    color: "#ffffff",
+                    fontSize: "18px",
+                    };
                 }
              return {label: event};
             });
