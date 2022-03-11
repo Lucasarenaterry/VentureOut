@@ -328,7 +328,19 @@
             var geojson = JSON.parse(featureCollection);
             map.data.addGeoJson(geojson);
 
+            var bounds = new google.maps.LatLngBounds();
+
             map.data.setStyle(function(feature) {
+
+                var longitude = feature.getProperty('longitude');
+                var latitude = feature.getProperty('latitude');
+                if (latitude != null & longitude != null){
+                console.log(latitude);
+                bounds.extend(new google.maps.LatLng(latitude, longitude));
+                }
+                
+                map.fitBounds(bounds);
+            
                 var type = feature.getProperty('eventtype');
                 if (type == "ski"){
                     var event = {
@@ -355,6 +367,7 @@
              return {label: event};
             });
 
+            
 
             map.data.addListener('click', function (event) {
                 var event_title = event.feature.getProperty('eventtittel');
@@ -371,6 +384,7 @@
                 let e = new Date(enddate);
                 var ed = s.toLocaleDateString("en-GB", {year: 'numeric', month: 'short', day: 'numeric' });
 
+                
 
                 $('#event_title').html(event_title);
                 $('#organized_by').html(organized_by);
@@ -420,6 +434,7 @@
             customControlDiv1.index = 2;
             map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(customControlDiv1);
 
+            
                
         } 
 
@@ -433,6 +448,7 @@
 
          // if qr code has been scanned then modal will be shown with data of the event
         $(window).on('load', function() {
+        
         if (qr == "true"){
             
                 $('#infomodal').modal('hide');
