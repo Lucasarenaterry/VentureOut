@@ -345,7 +345,7 @@ func main() {
 							return
 						}
 				}
-				fmt.Printf("%v", featureCollection)
+				//fmt.Printf("%v", featureCollection)
 			}
 			
 			
@@ -374,7 +374,7 @@ func main() {
 					   Eventtype: Eventtype,
 				   })
 			}
-			fmt.Printf("%v", filterTypes)
+			//fmt.Printf("%v", filterTypes)
 
 			
 			c.HTML(http.StatusOK, "map.html", gin.H{ "featureCollection": featureCollection, "filterTypes": filterTypes, })
@@ -446,7 +446,7 @@ func main() {
 							return
 						}
 				}
-				fmt.Printf("%v", featureCollection)
+				//fmt.Printf("%v", featureCollection)
 
 				rowss, err := db.Query("SELECT eventtittel, eventtype, description, organizedby, image, TO_CHAR(eventstartdate, 'DD Mon YYYY'), TO_CHAR(eventenddate , 'DD Mon YYYY'), TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events WHERE id = $1", eventid)
 				if err != nil {
@@ -487,7 +487,7 @@ func main() {
 							return
 						}
 				}
-				fmt.Printf("%v", featureCollection)
+				//fmt.Printf("%v", featureCollection)
 
 			
 			} else {
@@ -497,9 +497,7 @@ func main() {
 						fmt.Sprintf("Error reading Events: %q", err))
 					return
 				}
-				
-				
-
+			
 				defer rows.Close()
 				
 				for rows.Next() {
@@ -510,7 +508,7 @@ func main() {
 							return
 						}
 				}
-				fmt.Printf("%v", featureCollection)
+				//fmt.Printf("%v", featureCollection)
 			}
 			
 			rowss, err := db.Query("SELECT DISTINCT eventtype FROM events")
@@ -536,9 +534,8 @@ func main() {
 					   Eventtype: Eventtype,
 				   })
 			}
-			fmt.Printf("%v", filterTypes)
+			//fmt.Printf("%v", filterTypes)
 
-			
 			c.HTML(http.StatusOK, "map.html", gin.H{ 
 				"featureCollection": featureCollection, 
 				"filterTypes": filterTypes, 
@@ -558,13 +555,11 @@ func main() {
 			})
 		})
 
-		
-
 		r.POST("/ingeofence/:lat/:lng/:geofencediscovered", func(c *gin.Context) {
 			lat := c.Param("lat")
 			lng := c.Param("lng")
 			GeofenceDiscovered := c.Param("geofencediscovered")
-			fmt.Printf("%v", GeofenceDiscovered)
+			//fmt.Printf("%v", GeofenceDiscovered)
 			
 			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events WHERE ST_Dwithin ( geography (ST_Point(longitude,latitude)), geography (ST_Point($1, $2)), 60) limit 1", lng, lat)
 			if err != nil {
@@ -660,7 +655,7 @@ func main() {
 				
 
 				if (len(string(featureCollection)) > 49 ){
-				fmt.Printf("%v", featureCollection)
+				//fmt.Printf("%v", featureCollection)
 				c.JSON(200, featureCollection)
 				} else {
 					c.JSON(200, "No events found")
@@ -672,10 +667,6 @@ func main() {
 				datefrom := c.Request.FormValue("datefrom")
 				
 				dateto := c.Request.FormValue("dateto")
-				//fmt.Printf("filter %v", datefrom)
-				//fmt.Printf("filter %v", dateto)
-
-				
 
 				if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT)"); 
 					err != nil {
