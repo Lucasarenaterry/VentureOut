@@ -404,11 +404,6 @@
                 map.data.addGeoJson(geojson);
             }
             
-
-          
-
-           
-
             var bounds = new google.maps.LatLngBounds();
 
             map.data.setStyle(function(feature) {
@@ -425,7 +420,6 @@
                     zoomChangeBoundsListener = 
                         google.maps.event.addListener(map, 'bounds_changed', function(event) {
                             if (this.getZoom() > 15 && this.initialZoom == true) {
-                                // Change max/min zoom here
                                 this.setZoom(12.5);
                                 this.initialZoom = false;
                             }
@@ -463,7 +457,6 @@
             });
 
             
-
             map.data.addListener('click', function (event) {
                 var event_title = event.feature.getProperty('eventtittel');
                 var organized_by = event.feature.getProperty('organizedby');
@@ -478,8 +471,6 @@
                 var sd = s.toLocaleDateString("en-GB", {year: 'numeric', month: 'short', day: 'numeric' });
                 let e = new Date(enddate);
                 var ed = s.toLocaleDateString("en-GB", {year: 'numeric', month: 'short', day: 'numeric' });
-
-                
 
                 $('#event_title').html(event_title);
                 $('#organized_by').html(organized_by);
@@ -559,7 +550,7 @@
             
                 $('#infomodal').modal('hide');
                 var event_title = "{{.Eventtittel}}";
-                    // var organized_by = event.feature.getProperty('organizedBy');
+                var organized_by = "{{.OrganizedBy}}";
                 var image = "{{.Image}}";
                 var description = "{{.Description}}";
                 var EventStartdDate = "{{.EventStartdDate}}";
