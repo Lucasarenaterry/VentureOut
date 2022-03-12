@@ -358,8 +358,7 @@
                            if (jsondata == "No events found") {
                                alert(jsondata);
                            }
-                           console.log("retunr from db  " + jsondata);
-                           //geojson = JSON.parse(data);
+                           //console.log("retunr from db  " + jsondata);
                            var searchgeaojson = JSON.parse(jsondata);
                            initMap(searchgeaojson);
                            
@@ -380,8 +379,6 @@
                 mapTypeId: 'satellite',
             }
 
-       
-            //const initialPosition = { lat: 55.909392, lng: -3.316438 };
             const initialPosition = { lat: 55.929096, lng: -3.210064 };
             var map = new google.maps.Map(document.getElementById('map'), options);
             
@@ -398,11 +395,6 @@
                 }
             });
 
-            
-
-        
-            // map.data.loadGeoJson('static/HWUevents.geojson');
-            
             var geojson = JSON.parse(featureCollection);
             var searchgeaojson = searchgeaojson;
             //loads in the geojson file with all events
