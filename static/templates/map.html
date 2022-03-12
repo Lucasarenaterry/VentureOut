@@ -94,19 +94,34 @@
         }
 
         function infomodal() {
-            console.log(geofencedata);
+            //console.log(geofencedata);
             $('#infomodal').modal('hide');
+           
             var event_title = geofencedata.Eventtittel;
             var organized_by = geofencedata.OrganizedBy;
             var image = geofencedata.Image;
             var description = geofencedata.Description;
-            var date = geofencedata.EventStartdDate;
+            var startdate = geofencedata.EventStartdDate;
+            var enddate = geofencedata.EventEndDate;
+            var starttime = geofencedata.EventStartTime;
+            var endtime = geofencedata.EventEndTime;
+            var eventlink = geofencedata.EventLink;
+            let s = new Date(startdate);
+            var sd = s.toLocaleDateString("en-GB", {year: 'numeric', month: 'short', day: 'numeric' });
+            let e = new Date(enddate);
+            var ed = s.toLocaleDateString("en-GB", {year: 'numeric', month: 'short', day: 'numeric' });
+
+                
 
             $('#event_title').html(event_title);
             $('#organized_by').html(organized_by);
             $('#image').attr("src", image);
             $('#description').html(description);
-            $('#date').html(date);
+            $('#startdate').html(sd);
+            $('#enddate').html(ed);
+            $('#starttime').html(starttime);
+            $('#endtime').html(endtime);
+            $('#eventlink').html(eventlink);
             $('#infomodal').modal('show');
         }
 
