@@ -621,6 +621,51 @@ func main() {
 		   }
 		})
 
+		r.POST("/searcharea/:SWlng/:SWlat/:NElng/:NElat", func(c *gin.Context) {
+			SWlng := c.Param("SWlng")
+			SWlat := c.Param("SWlat")
+			NElng := c.Param("NElng")
+			NElat := c.Param("NElat")
+			fmt.Printf("%v", SWlng)
+			
+			if _, err := db.Exec("CREATE TABLE IF NOT EXISTS events (id SERIAL PRIMARY KEY, eventtittel varchar(45) NOT NULL, eventtype varchar(45) NOT NULL, description varchar(255) NOT NULL, organizedby varchar(45), image TEXT, location GEOMETRY(POINT,4326), geofence GEOGRAPHY, displayfrom DATE, displaytill DATE, eventstartdate DATE, eventenddate DATE, eventstarttime TIME, eventendtime TIME, contactemail TEXT, eventlink TEXT)"); 
+				err != nil {
+					c.String(http.StatusInternalServerError,
+					fmt.Sprintf("Error creating database table: %q", err))
+				return
+			}
+			
+			var featureCollection string
+
+			rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location' - 'geofence', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, geofence, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink) WHERE location && ST_MakeEnvelope($1, $2, $3, $4, 4326)", SWlng, SWlat, NElng, NElat)
+					if err != nil {
+						c.String(http.StatusInternalServerError,
+						fmt.Sprintf("Error reading Events: %q", err))
+					return
+				}
+				
+				
+
+				defer rows.Close()
+				
+				for rows.Next() {
+					if err := rows.Scan(&featureCollection); 
+						err != nil {
+							c.String(http.StatusInternalServerError,
+								fmt.Sprintf("Error scanning events: %q", err))
+							return
+						}
+				}
+
+				
+
+				if (len(string(featureCollection)) > 49 ){
+				fmt.Printf("%v", featureCollection)
+				c.JSON(200, featureCollection)
+				}
+		    
+		})
+
 		r.POST("/calender", func(c *gin.Context) {
 				datefrom := c.Request.FormValue("datefrom")
 				

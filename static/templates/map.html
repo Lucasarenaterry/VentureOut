@@ -290,11 +290,71 @@
       
         }
 
+        function CustomControl2(controlDiv, map) {
+         // Set CSS for the control border.
+        const controlUI2 = document.createElement("div");
+
+        controlUI2.style.backgroundColor = "#fff";
+        controlUI2.style.border = "2px solid #fff";
+        controlUI2.style.borderRadius = "3px";
+
+        controlUI2.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+        controlUI2.style.marginRight = '10px';
+        controlUI2.style.cursor = "pointer";
+        controlUI2.style.marginTop = "8px";
+        controlUI2.style.marginBottom = "22px";
+        controlUI2.style.textAlign = "center";
+        controlUI2.title = "Search Area";
+        controlDiv.appendChild(controlUI2);
+
+        // Set CSS for the control interior.
+        const controlText2 = document.createElement("div");
+
+        controlText2.style.color = "rgb(25,25,25)";
+        controlText2.style.fontFamily = "Roboto,Arial,sans-serif";
+        controlText2.style.fontSize = "16px";
+        controlText2.style.lineHeight = "38px";
+        controlText2.style.paddingLeft = "5px";
+        controlText2.style.paddingRight = "5px";
+        controlText2.innerHTML = "Search Area";
+        controlUI2.appendChild(controlText2);
+       
+        controlUI2.addEventListener("click", () => {
+            searcharea(NE, SW);
+            
+        });
+        }
+
+        function searcharea(NE, SW) {
+            var NElat = NE.lat();
+            var NElng = NE.lng();
+            var SWlat = SW.lat();
+            var SWlng = SW.lng();
+            
+            $.ajax({
+                            url: "/searcharea/" + SWlng + "/" + SWlat + "/" + NElng + "/" + NElat,
+                            method: "POST",
+                            contentType:'application/json&apos',
+                            dataType: 'json',
+                            cache: false,
+                            scriptCharset: 'utf-8',
+                        }). done (function (jsondata) {
+                           //var data = $.parseJSON(jsondata);
+                           console.log("retunr from db  " + jsondata);
+                           //geojson = JSON.parse(data);
+                           geojson = JSON.parse(jsondata);
+                           
+                        });
+        };
+
         var userLatitude;
         var userLongitude;
+      
+        var geojson;
+    
         
-        
-
+        var NE;
+        var SW;
 
         function initMap(){
             var options = {
@@ -325,8 +385,14 @@
 
         
             // map.data.loadGeoJson('static/HWUevents.geojson');
-            var geojson = JSON.parse(featureCollection);
+            
+            geojson = JSON.parse(featureCollection);
+            //loads in the geojson file with all events
             map.data.addGeoJson(geojson);
+
+          
+
+           
 
             var bounds = new google.maps.LatLngBounds();
 
@@ -400,6 +466,13 @@
                 $('#infomodal').modal('show');
             });
 
+            google.maps.event.addListener( map, "bounds_changed", function() {
+                var bounds = map.getBounds();
+                NE = bounds.getNorthEast();
+                SW = bounds.getSouthWest();
+                console.log("bounds" + NE.lat() + "," + NE.lng() + "SW " + SW.lat() + "," + SW.lng());
+            })
+
             getCurrentPosition({
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
@@ -435,6 +508,10 @@
             var customControl1 = new CustomControl1(customControlDiv1, map);
             customControlDiv1.index = 2;
             map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(customControlDiv1);
+            var customControlDiv2 = document.createElement('div');
+            var customControl2 = new CustomControl2(customControlDiv2, map);
+            customControlDiv2.index = 3;
+            map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(customControlDiv2);
 
             
                
