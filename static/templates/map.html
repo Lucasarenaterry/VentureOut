@@ -33,22 +33,15 @@
         <div class="modal-header" style="border-bottom: 0px;">
             <button type="button" class="btn-close" onclick="$('#filtermodal').modal('hide');" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="height: 100px;">
             <form method="POST" action="/map">
-                <!-- {{ range .filterTypes }}
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="filter" value="{{.Eventtype}}" id="flexCheckDefault" />
-                    <label class="form-check-label" for="flexCheckDefault">{{.Eventtype}}</label>
-                </div>
-                {{ end }} -->
-            
-            <select class="select" size="5" style="width: 100px;" name="filter" multiple data-mdb-container="#exampleModal" data-mdb-filter="true">
+                <div class="container d-flex align-items-center justify-content-center">
+            <select class="selectpicker" aria-label="size 3 select example" name="filter" multiple data-live-search="true">
                 {{ range .filterTypes }}
-                <option value="{{.Eventtype}}" >{{.Eventtype}}</option>
+                <option value="{{.Eventtype}}">{{.Eventtype}}</option>
                 {{ end }}
-            
             </select>
-           <!-- <input type="text" name="filter">  -->
+            </div>
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-primary" onclick="$('#filtermodal').modal('hide');">Filter Map</button>
@@ -66,6 +59,7 @@
     
     {{template "scripts.html"}}
     <script>
+        $('select').selectpicker();
         // var filterTypes = '{{.filterTypes}}';
         // console.log(filterTypes);
 
