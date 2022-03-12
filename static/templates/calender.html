@@ -36,11 +36,13 @@
           <div class="card-body overflow-auto">
             <h5 class="card-title">{{.Eventtittel}}</h5>
             <h6 class="card-subtitle mb-2 text-muted">Organized By {{.OrganizedBy}}</h6>
-            <p>Date and Time</p>
-            <p>{{.EventStartdDate}}, {{.EventStartTime}} - {{.EventEndDate}}, {{.EventEndTime}}</p>
-            <p class="card-text">
+            <h6>About this event</h6><p class="card-text">
               {{.Description}}
             </p>
+            <h6>Date and time</h6>
+            <p>{{.EventStartdDate}}, {{.EventStartTime}} - {{.EventEndDate}}, {{.EventEndTime}}</p>
+            <h6>Link to event</h6>
+            <p>{{.EventLink}}</p>
           </div>
           <div class="card-footer text-center">
             <button type="button" style="margin: 0 auto;" class="btn btn-primary" onclick="OnMap('{{.Id}}')">View on map</button>
