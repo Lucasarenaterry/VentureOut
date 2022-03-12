@@ -340,6 +340,9 @@
                             scriptCharset: 'utf-8',
                         }). done (function (jsondata) {
                            //var data = $.parseJSON(jsondata);
+                           if (jsondata == "No events found") {
+                               alert(jsondata);
+                           }
                            console.log("retunr from db  " + jsondata);
                            //geojson = JSON.parse(data);
                            var searchgeaojson = JSON.parse(jsondata);

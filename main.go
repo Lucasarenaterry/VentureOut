@@ -662,6 +662,8 @@ func main() {
 				if (len(string(featureCollection)) > 49 ){
 				fmt.Printf("%v", featureCollection)
 				c.JSON(200, featureCollection)
+				} else {
+					c.JSON(200, "No events found")
 				}
 		    
 		})
