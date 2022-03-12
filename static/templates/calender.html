@@ -28,12 +28,12 @@
       </form>
     </div>
     <p id="nodata" class="d-flex align-items-center justify-content-center "></p>
-    <div class="row row-cols-1 row-cols-md-3 g-4 d-flex align-items-center justify-content-center" style="margin: 0 auto;">
+    <div class="row row-cols-1 row-cols-md-3 g-4 d-flex align-items-stretch justify-content-center" style="margin: 0 auto;">
       {{ range .events }}
       <div class="col" style="width: 400px;">
-        <div class="card h-100">
+        <div class="card" style="height: 646px;">
           <img src="{{.Image}}" onerror="this.onerror;this.src='/static/img/logo.png'" style="height: 250px;" class="card-img-top"/>
-          <div class="card-body">
+          <div class="card-body overflow-auto">
             <h5 class="card-title">{{.Eventtittel}}</h5>
             <h6 class="card-subtitle mb-2 text-muted">Organized By {{.OrganizedBy}}</h6>
             <p>Date and Time</p>
