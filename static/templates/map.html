@@ -342,21 +342,20 @@
                            //var data = $.parseJSON(jsondata);
                            console.log("retunr from db  " + jsondata);
                            //geojson = JSON.parse(data);
-                           geojson = JSON.parse(jsondata);
+                           var searchgeaojson = JSON.parse(jsondata);
+                           initMap(searchgeaojson);
                            
                         });
         };
 
         var userLatitude;
         var userLongitude;
-      
-        var geojson;
     
         
         var NE;
         var SW;
 
-        function initMap(){
+        function initMap(searchgeaojson){
             var options = {
                 center: { lat: 55.909769499991654, lng: -3.3205147727103452 },
                 zoom: 12.5,
@@ -386,9 +385,15 @@
         
             // map.data.loadGeoJson('static/HWUevents.geojson');
             
-            geojson = JSON.parse(featureCollection);
+            var geojson = JSON.parse(featureCollection);
+            var searchgeaojson = searchgeaojson;
             //loads in the geojson file with all events
-            map.data.addGeoJson(geojson);
+            if (searchgeaojson != null) {
+                map.data.addGeoJson(searchgeaojson);
+            } else {
+                map.data.addGeoJson(geojson);
+            }
+            
 
           
 
