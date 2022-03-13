@@ -417,7 +417,7 @@
                     zoomChangeBoundsListener = 
                         google.maps.event.addListener(map, 'bounds_changed', function(event) {
                             if (this.getZoom() > 15 && this.initialZoom == true) {
-                                this.setZoom(12.5);
+                                this.setZoom(15);
                                 this.initialZoom = false;
                             }
                         google.maps.event.removeListener(zoomChangeBoundsListener);
