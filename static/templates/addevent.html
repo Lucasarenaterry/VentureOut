@@ -8,10 +8,10 @@
     {{template "navbarmobile.html"}}
    
    <div style="width: 50%; margin:0 auto; padding-top: 20px;">
-    <form>
+    <form method="POST" action="/addevent">
       
       <div class="form-outline mb-4">
-        <input type="text" id="form4Example1" class="form-control" />
+        <input type="text" id="form4Example1" name="eventtitle" value="" class="form-control" />
         <label class="form-label" for="form4Example1">Event tittle</label>
       </div>
     
@@ -115,7 +115,7 @@
      
 
       <p style="text-align: center;"> Once submitted the event will be reviewed by the admin.</p>
-      <button type="submit" class="btn btn-primary btn-block mb-4" style="width: 100px; margin:0 auto;">Submit</button>
+      <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center" style="width: 100px; margin:0 auto;">Submit</button>
     </form>
     </div>
 

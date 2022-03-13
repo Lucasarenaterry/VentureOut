@@ -808,8 +808,22 @@ func main() {
 			})
 		})
 
+		r.POST("/addevent", func(c *gin.Context) {
+			if err := c.Request.ParseForm();err != nil {
+				c.String(http.StatusInternalServerError,
+				fmt.Sprintf("ParseForm() err: %v", err))
+				return
+			}
+	
+			// filter := c.Request.FormValue("filter")
+			filterSlice := c.Request.FormValue("eventtitle")
+			fmt.Printf("%v", filterSlice)
 
 
+			c.HTML(http.StatusOK, "addevent.html", gin.H{})
+		})
+
+		
 		r.GET("/addevent", func(c *gin.Context) {
 			c.HTML(http.StatusOK, "addevent.html", gin.H{})
 		})
