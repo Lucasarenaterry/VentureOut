@@ -35,7 +35,7 @@ self.addEventListener('fetch', function(event) {
     );
 });
 
-const CacheName = 'VentureOut-cache-v1';
+const CacheName = 'VentureOut-cache-v2';
 const CacheUrls = [
     './',
     '/static/css/main.css', 
@@ -49,11 +49,9 @@ const CacheUrls = [
     '/static/js/mdb.min.js',
     'manifest.webmanifest',
     'service-worker.js',
-    '/static/HWUevents.geojson',
     '/static/templates/addevent.html',
     '/static/templates/ar.html',
     '/static/templates/footer.html',
-    '/static/templates/filtermodal.html',
     '/static/templates/header.html',
     '/static/templates/index.html',
     '/static/templates/calender.html',
