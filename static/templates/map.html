@@ -200,10 +200,10 @@
                            var data = $.parseJSON(jsondata);
                            geofencedata = data;
                            geofencediscovered = data.Id;
-                           console.log(geofencediscovered);
-                           console.log("geo");
-                           console.log(geofencedata);
-                           console.log(data);
+                           //console.log(geofencediscovered);
+                        //    console.log("geo");
+                        //    console.log(geofencedata);
+                        //    console.log(data);
                            if (data == "null"){
                             console.log("user is not in Geofence");
                            } else {
@@ -408,7 +408,6 @@
                 var longitude = feature.getProperty('longitude');
                 var latitude = feature.getProperty('latitude');
                 if (latitude != null & longitude != null){
-                console.log(latitude);
                 bounds.extend(new google.maps.LatLng(latitude, longitude));
                 }
                 //zooms out the map to fit all events in 
@@ -485,7 +484,7 @@
                 var bounds = map.getBounds();
                 NE = bounds.getNorthEast();
                 SW = bounds.getSouthWest();
-                console.log("bounds" + NE.lat() + "," + NE.lng() + "SW " + SW.lat() + "," + SW.lng());
+                //console.log("bounds" + NE.lat() + "," + NE.lng() + "SW " + SW.lat() + "," + SW.lng());
             })
 
             getCurrentPosition({
