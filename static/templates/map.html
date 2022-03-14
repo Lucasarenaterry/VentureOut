@@ -179,6 +179,7 @@
             };
 
         var geofencedata;
+        var geofencesvisited = [];
         
         function Geofence(position) {
             lat=position.coords.latitude;
@@ -204,7 +205,10 @@
                            if (data == "null"){
                             console.log("user is not in Geofence");
                            } else {
+                            if (!geofencesvisited.includes(data.Id)){
+                            geofencesvisited.push(data.Id);
                             notifyUser(data);
+                            }
                            }
                         });
         };
