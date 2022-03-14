@@ -815,9 +815,36 @@ func main() {
 				return
 			}
 	
-			// filter := c.Request.FormValue("filter")
-			filterSlice := c.Request.FormValue("eventtitle")
-			fmt.Printf("%v", filterSlice)
+			
+			eventtitle := c.Request.FormValue("eventtitle")
+			eventtype := c.Request.FormValue("eventtype")
+			description := c.Request.FormValue("description")
+			Image := c.Request.FormValue("Image")
+			organizedby := c.Request.FormValue("organizedby")
+			latitude := c.Request.FormValue("latitude")
+			longitude := c.Request.FormValue("longitude")
+			contact := c.Request.FormValue("contact")
+			eventlink := c.Request.FormValue("eventlink")
+
+			eventstartdate := c.Request.FormValue("eventstartdate")
+			eventenddate := c.Request.FormValue("eventenddate")
+
+			eventstarttime := c.Request.FormValue("eventstarttime")
+			eventendtime := c.Request.FormValue("eventendtime")
+
+			displayeventfrom := c.Request.FormValue("displayeventfrom")
+			displayeventuntil := c.Request.FormValue("displayeventuntil")
+			// fmt.Printf("%v", filterSlice)
+
+			// INSERT INTO events (eventtittel, eventtype, description, organizedby, image, location, geofence, displayfrom, displaytill, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink) VALUES ('LANDSCAPE TRAIL', 'Walk', 'walk around campus visiting the main landcapes', 'Heriot-Watt University', 'landscape.png', 'SRID=4326;POINT(-3.321578 55.910807)', ST_Buffer(geography(ST_POINT(-3.2138, 55.9406)), 3), '2022/02/26', '2022/03/26', '2022/03/01', '2022/03/4', '08:00', '13:00', 'hw@hw.ac.uk', 'https://www.hw.ac.uk/uk/campus-trails.htm');
+
+
+			if _, err := db.Exec("INSERT INTO events (eventtittel, eventtype, description, organizedby, image, location, geofence, displayfrom, displaytill, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink, latitude, longitude) VALUES ($1, $2, $3, $4, $5, 'SRID=4326;POINT(-3.321578 55.910807)', 'ST_Buffer(geography(ST_POINT(-3.2138, 55.9406)), 3)', $11, $12, $13, $14, $15, $16, $9, $10, $7, $6)", eventtitle, eventtype, description, organizedby, Image, longitude, latitude, contact, eventlink, displayeventfrom, displayeventuntil, eventstartdate, eventenddate, eventstarttime, eventendtime); 
+			err != nil {
+				c.String(http.StatusInternalServerError,
+				fmt.Sprintf("Error creating database table: %q", err))
+			return
+			}
 
 
 			c.HTML(http.StatusOK, "addevent.html", gin.H{})

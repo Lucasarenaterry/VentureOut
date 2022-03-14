@@ -17,17 +17,17 @@
     
       
       <div class="form-outline mb-4">
-        <input type="text" id="form4Example2" class="form-control" />
+        <input type="text" id="form4Example2" name="eventtype" value="" class="form-control" />
         <label class="form-label" for="form4Example2">Event type e.g. walk, run, cycle</label>
       </div>
     
       
       <div class="form-outline mb-4">
-        <textarea class="form-control" id="form4Example3" rows="3"></textarea>
+        <textarea class="form-control" id="form4Example3" name="description" value="" rows="3"></textarea>
         <label class="form-label" for="form4Example3">Event description</label>
       </div>
 
-      <div class="row">
+      <!-- <div class="row">
         <div class="col">
             <p>Select event image</p>
         </div>
@@ -36,48 +36,53 @@
             <input type="file" id="form4Example2" class="form-control" />
           </div>
       </div>
+      </div> -->
+
+      <div class="form-outline mb-4">
+        <input type="text" id="form4Example2" name="Image" value="" class="form-control" />
+        <label class="form-label" for="form4Example2">Image</label>
       </div>
 
       <div class="form-outline mb-4">
-        <input type="text" id="form4Example2" class="form-control" required>
+        <input type="text" id="form4Example2" name="organizedby" value="" class="form-control" required>
         <label class="form-label" for="form4Example2">Organized By</label>
       </div>
 
       <div class="row mb-4">
         <div class="col">
           <div class="form-outline">
-            <input type="text" id="form6Example1" class="form-control" />
+            <input type="text" id="form6Example1" name="latitude" value="" class="form-control" />
             <label class="form-label" for="form6Example1">Event Location latitude, e.g. 55.9406</label>
           </div>
         </div>
         <div class="col">
           <div class="form-outline">
-            <input type="text" id="form6Example2" class="form-control" />
+            <input type="text" id="form6Example2" name="longitude" value="" class="form-control" />
             <label class="form-label" for="form6Example2">Event Location longitude, e.g. -3.2138</label>
           </div>
         </div>
       </div>
 
       <div class="form-outline mb-4">
-        <input type="email" id="form4Example1" class="form-control" />
+        <input type="email" id="form4Example1" name="contact" value="" class="form-control" />
         <label class="form-label" for="form4Example1">Contact email</label>
       </div>
 
       <div class="form-outline mb-4">
-        <input type="url" id="form4Example1" class="form-control" />
+        <input type="url" id="form4Example1" name="eventlink" value="" class="form-control" />
         <label class="form-label" for="form4Example1">Event link</label>
       </div>
 
       <div class="row mb-4">
         <div class="col">
           <div class="form-outline">
-            <input type="date" id="form8Example3" class="form-control" />
+            <input type="date" id="form8Example3" name="eventstartdate" value="" class="form-control" />
             <label class="form-label" for="form8Example3">Event start date</label>
           </div>
         </div>
         <div class="col">
           <div class="form-outline">
-            <input type="time" id="form8Example4" class="form-control" />
+            <input type="time" id="form8Example4" name="eventstarttime" value="" class="form-control" />
             <label class="form-label" for="form8Example4">Event start time</label>
           </div>
         </div>
@@ -86,13 +91,13 @@
       <div class="row mb-4">
         <div class="col">
           <div class="form-outline">
-            <input type="date" id="form8Example3" class="form-control" />
+            <input type="date" id="form8Example3" name="eventenddate" value="" class="form-control" />
             <label class="form-label" for="form8Example3">Event end date</label>
           </div>
         </div>
         <div class="col">
           <div class="form-outline">
-            <input type="time" id="form8Example4" class="form-control" />
+            <input type="time" id="form8Example4" name="eventendtime" value="" class="form-control" />
             <label class="form-label" for="form8Example4">Event end time</label>
           </div>
         </div>
@@ -101,13 +106,13 @@
       <div class="row mb-4">
         <div class="col">
           <div class="form-outline">
-            <input type="date" id="form8Example3" class="form-control" />
+            <input type="date" id="form8Example3" name="displayeventfrom" value="" class="form-control" />
             <label class="form-label" for="form8Example3">Display Event from</label>
           </div>
         </div>
         <div class="col">
           <div class="form-outline">
-            <input type="date" id="form8Example4" class="form-control" />
+            <input type="date" id="form8Example4" name="displayeventuntil" value="" class="form-control" />
             <label class="form-label" for="form8Example4">Display event until</label>
           </div>
         </div>
