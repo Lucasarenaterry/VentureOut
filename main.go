@@ -555,18 +555,13 @@ func main() {
 			})
 		})
 
-		var alreadyseen []string
-
 		r.POST("/ingeofence/:lat/:lng/:geofencediscovered", func(c *gin.Context) {
 			lat := c.Param("lat")
 			lng := c.Param("lng")
 			GeofenceDiscovered := c.Param("geofencediscovered")
-			
-			alreadyseen = append(alreadyseen, GeofenceDiscovered)
-			dbseen := strings.Join(alreadyseen, ",")
 			//fmt.Printf("%v", GeofenceDiscovered)
 			
-			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events WHERE ST_Dwithin ( geography (ST_Point(longitude,latitude)), geography (ST_Point($1, $2)), 60) AND id NOT IN ($3) LIMIT 1", lng, lat, dbseen)
+			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events WHERE ST_Dwithin ( geography (ST_Point(longitude,latitude)), geography (ST_Point($1, $2)), 60) AND id != $3 AND displaytill > now() LIMIT 1", lng, lat, GeofenceDiscovered)
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
