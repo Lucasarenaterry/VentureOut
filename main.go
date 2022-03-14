@@ -561,12 +561,19 @@ func main() {
 			GeofenceDiscovered := c.Param("geofencediscovered")
 			//fmt.Printf("%v", GeofenceDiscovered)
 			
-			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events WHERE ST_Dwithin ( geography (ST_Point(longitude,latitude)), geography (ST_Point($1, $2)), 60) AND id != $3 AND displaytill > now() LIMIT 1", lng, lat, GeofenceDiscovered)
+			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events WHERE ST_Dwithin ( geography (ST_Point(longitude,latitude)), geography (ST_Point($1, $2)), 60) AND displaytill > now() LIMIT 1", lng, lat)
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
 				return
 			}
+
+			// rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events WHERE ST_Dwithin ( geography (ST_Point(longitude,latitude)), geography (ST_Point($1, $2)), 60) AND id != $3 AND displaytill > now() LIMIT 1", lng, lat, GeofenceDiscovered)
+			// if err != nil {
+			// 	c.String(http.StatusInternalServerError,
+			// 		fmt.Sprintf("Error reading Events: %q", err))
+			// 	return
+			// }
    
 			defer rows.Close()
 			var Eventtittel string 
