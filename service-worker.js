@@ -36,7 +36,7 @@ self.addEventListener('fetch', function(event) {
     );
 });
 
-const CacheName = 'VentureOut-cache-v5';
+const CacheName = 'VentureOut-cache-v6';
 const CacheUrls = [
     './',
     '/static/css/main.css', 
@@ -49,6 +49,12 @@ const CacheUrls = [
     '/static/img/favicon-16x16.png',
     '/static/img/favicon-32x32.png',
     '/static/img/logo.png',
+    '/static/img/maskable_icon_x72.png',
+    '/static/img/maskable_icon_x96.png',
+    '/static/img/maskable_icon_x128.png',
+    '/static/img/maskable_icon_x192.png',
+    '/static/img/maskable_icon_x384.png',
+    '/static/img/maskable_icon_x512.png',
     '/static/js/html5-qrcode.min.js',
     '/static/js/mdb.min.js',
     'manifest.webmanifest',
