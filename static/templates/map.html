@@ -65,7 +65,7 @@
 
         var featureCollection = '{{.featureCollection}}';
         var geofencediscovered = 0;
-        console.log(featureCollection);
+        //console.log(featureCollection);
         
         let map;
 
@@ -74,8 +74,6 @@
 
         function notifyUser (data) {
             $('#notify').toast('hide');
-            console.log("test:");
-            console.log(data.Eventtittel);
             var event_title = data.Eventtittel;
             var organized_by = data.OrganizedBy;
             var date = data.EventStartdDate;
@@ -88,7 +86,6 @@
         }
 
         function infomodal() {
-            //console.log(geofencedata);
             $('#infomodal').modal('hide');
            
             var event_title = geofencedata.Eventtittel;
