@@ -559,11 +559,12 @@ func main() {
 			lat := c.Param("lat")
 			lng := c.Param("lng")
 			GeofenceDiscovered := c.Param("geofencediscovered")
-			var alreadyseen
-			alreadyseen = alreadyseen + "," + GeofenceDiscovered
+			var alreadyseen []string
+			alreadyseen = append(alreadyseen, GeofenceDiscovered)
+			dbseen := strings.Join(alreadyseen, ",")
 			//fmt.Printf("%v", GeofenceDiscovered)
 			
-			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events WHERE ST_Dwithin ( geography (ST_Point(longitude,latitude)), geography (ST_Point($1, $2)), 60) AND id NOT IN ($3) LIMIT 1", lng, lat, alreadyseen)
+			rows, err := db.Query("SELECT id, eventtittel, eventtype, description, organizedby, image, eventstartdate, eventenddate, TO_CHAR(eventstarttime, 'HH24:MI'), TO_CHAR(eventendtime, 'HH24:MI'), contactemail, eventlink FROM events WHERE ST_Dwithin ( geography (ST_Point(longitude,latitude)), geography (ST_Point($1, $2)), 60) AND id NOT IN ($3) LIMIT 1", lng, lat, dbseen)
 			if err != nil {
 				c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
