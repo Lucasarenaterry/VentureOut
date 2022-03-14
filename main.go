@@ -555,11 +555,13 @@ func main() {
 			})
 		})
 
+		var alreadyseen []string
+
 		r.POST("/ingeofence/:lat/:lng/:geofencediscovered", func(c *gin.Context) {
 			lat := c.Param("lat")
 			lng := c.Param("lng")
 			GeofenceDiscovered := c.Param("geofencediscovered")
-			var alreadyseen []string
+			
 			alreadyseen = append(alreadyseen, GeofenceDiscovered)
 			dbseen := strings.Join(alreadyseen, ",")
 			//fmt.Printf("%v", GeofenceDiscovered)
