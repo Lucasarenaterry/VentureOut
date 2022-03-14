@@ -36,7 +36,7 @@ self.addEventListener('fetch', function(event) {
     );
 });
 
-const CacheName = 'VentureOut-cache-v4';
+const CacheName = 'VentureOut-cache-v5';
 const CacheUrls = [
     './',
     '/static/css/main.css', 
