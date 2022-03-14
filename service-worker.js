@@ -36,7 +36,7 @@ self.addEventListener('fetch', function(event) {
     );
 });
 
-const CacheName = 'VentureOut-cache-v3';
+const CacheName = 'VentureOut-cache-v4';
 const CacheUrls = [
     './',
     '/static/css/main.css', 
@@ -45,6 +45,9 @@ const CacheUrls = [
     '/static/css/mdb.min.css',
     '/static/css/mdb.rtl.min.css',
     '/static/img/favicon.ico',
+    '/static/img/apple-touch-icon.png',
+    '/static/img/favicon-16x16.png',
+    '/static/img/favicon-32x32.png',
     '/static/img/logo.png',
     '/static/js/html5-qrcode.min.js',
     '/static/js/mdb.min.js',
