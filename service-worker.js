@@ -10,18 +10,33 @@ self.addEventListener("install", function(event) {
    );
 });
 
+// self.addEventListener('activate', function(event) {
+//     console.log('Service worker has been activated');
+//     // Deletes old caches
+//     event.waitUntil(
+//         caches.keys().then( function(keys) {
+//             return Promise.all(keys
+//                 .filter(key => key !== CacheName)
+//                 .map(key => caches.delete(key))
+//             )
+//         })
+//     )
+// });
+
 self.addEventListener('activate', function(event) {
+    var cachesToKeep = ['VentureOut-cache-v8'];
     console.log('Service worker has been activated');
-    // Deletes old caches
+  
     event.waitUntil(
-        caches.keys().then( function(keys) {
-            return Promise.all(keys
-                .filter(key => key !== CacheName)
-                .map(key => caches.delete(key))
-            )
-        })
-    )
-});
+      caches.keys().then(function(keyList) {
+        return Promise.all(keyList.map(function(key) {
+          if (cachesToKeep.indexOf(key) === -1) {
+            return caches.delete(key);
+          }
+        }));
+      })
+    );
+  });
 
 
 self.addEventListener('fetch', function(event) {
@@ -36,7 +51,7 @@ self.addEventListener('fetch', function(event) {
     );
 });
 
-const CacheName = 'VentureOut-cache-v7';
+const CacheName = 'VentureOut-cache-v8';
 const CacheUrls = [
     './',
     '/static/css/main.css', 
