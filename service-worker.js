@@ -36,7 +36,7 @@ self.addEventListener('fetch', function(event) {
     );
 });
 
-const CacheName = 'VentureOut-cache-v6';
+const CacheName = 'VentureOut-cache-v7';
 const CacheUrls = [
     './',
     '/static/css/main.css', 
@@ -55,6 +55,10 @@ const CacheUrls = [
     '/static/img/maskable_icon_x192.png',
     '/static/img/maskable_icon_x384.png',
     '/static/img/maskable_icon_x512.png',
+    '/static/img/hwssc.png',
+    '/static/img/heritage.jpg',
+    '/static/img/discovery.png',
+    '/static/img/sasc.jpg',
     '/static/js/html5-qrcode.min.js',
     '/static/js/mdb.min.js',
     'manifest.webmanifest',
