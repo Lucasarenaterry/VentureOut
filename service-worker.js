@@ -23,19 +23,19 @@ self.addEventListener("install", function(event) {
 //     )
 // });
 
-self.addEventListener('activate', function(event) {
-    var cachesToKeep = ['VentureOut-cache-v8'];
-    console.log('Service worker has been activated');
+self.addEventListener('activate', (event) => {
+    // Specify allowed cache keys
+    const cacheAllowList = ['VentureOut-cache-v9'];
   
-    event.waitUntil(
-      caches.keys().then(function(keyList) {
-        return Promise.all(keyList.map(function(key) {
-          if (cachesToKeep.indexOf(key) === -1) {
-            return caches.delete(key);
-          }
-        }));
-      })
-    );
+    // Get all the currently active `Cache` instances.
+    event.waitUntil(caches.keys().then((keys) => {
+      // Delete all caches that aren't in the allow list:
+      return Promise.all(keys.map((key) => {
+        if (!cacheAllowList.includes(key)) {
+          return caches.delete(key);
+        }
+      }));
+    }));
   });
 
 
@@ -51,7 +51,7 @@ self.addEventListener('fetch', function(event) {
     );
 });
 
-const CacheName = 'VentureOut-cache-v8';
+const CacheName = 'VentureOut-cache-v9';
 const CacheUrls = [
     './',
     '/static/css/main.css', 
