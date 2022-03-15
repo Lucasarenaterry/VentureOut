@@ -491,7 +491,7 @@ func main() {
 
 			
 			} else {
-				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location' - 'geofence', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, geofence, displayfrom, displaytill, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink) WHERE location && ST_MakeEnvelope(-3.3188149475097695, 55.88051417897946, -3.2062050842285195, 55.947473076492535, 4326)")
+				rows, err := db.Query("SELECT json_build_object( 'type', 'FeatureCollection', 'features', json_agg( json_build_object( 'type', 'Feature', 'properties', to_jsonb( t.* ) - 'location' - 'geofence', 'geometry', ST_AsGeoJSON(location)::jsonb ) ) ) AS json FROM events as t(id, eventtittel, eventtype, description, organizedby, image, location, geofence, displayfrom, displaytill, eventstartdate, eventenddate, eventstarttime, eventendtime, contactemail, eventlink) WHERE location && ST_MakeEnvelope(-3.356605357290039, 55.880831712652935, -3.112159556508789, 55.947790062256765, 4326)")
 					if err != nil {
 						c.String(http.StatusInternalServerError,
 						fmt.Sprintf("Error reading Events: %q", err))
