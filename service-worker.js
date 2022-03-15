@@ -2,6 +2,8 @@ console.log('service worker getting out of bed and having a coffee');
 
 
 self.addEventListener("install", function(event) {
+   self.skipWaiting();
+
    event.waitUntil(
       caches.open(CacheName)
       .then(cache => {
@@ -25,7 +27,7 @@ self.addEventListener("install", function(event) {
 
 self.addEventListener('activate', (event) => {
     // Specify allowed cache keys
-    const cacheAllowList = ['VentureOut-cache-v9'];
+    const cacheAllowList = ['VentureOut-cache-v10'];
   
     // Get all the currently active `Cache` instances.
     event.waitUntil(caches.keys().then((keys) => {
@@ -51,7 +53,7 @@ self.addEventListener('fetch', function(event) {
     );
 });
 
-const CacheName = 'VentureOut-cache-v9';
+const CacheName = 'VentureOut-cache-v10';
 const CacheUrls = [
     './',
     '/static/css/main.css', 
