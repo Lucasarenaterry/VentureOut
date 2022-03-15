@@ -468,6 +468,9 @@
                 var sd = s.toLocaleDateString("en-GB", {year: 'numeric', month: 'short', day: 'numeric' });
                 let e = new Date(enddate);
                 var ed = s.toLocaleDateString("en-GB", {year: 'numeric', month: 'short', day: 'numeric' });
+            
+                var st = starttime.replace(/:\d\d([ ap]|$)/,'');
+                var et = endtime.replace(/:\d\d([ ap]|$)/,'');
 
                 $('#event_title').html(event_title);
                 $('#organized_by').html(organized_by);
@@ -475,8 +478,8 @@
                 $('#description').html(description);
                 $('#startdate').html(sd);
                 $('#enddate').html(ed);
-                $('#starttime').html(starttime);
-                $('#endtime').html(endtime);
+                $('#starttime').html(st);
+                $('#endtime').html(et);
                 $('#eventlink').html(eventlink);
                 $('#infomodal').modal('show');
             });
