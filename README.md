@@ -17,6 +17,10 @@ JQUERY
 
 MBD https://mdbootstrap.com
 
+API's:
+Google maps api
+https://developers.google.com/maps/documentation/javascript/overview
+
 JS libraries:
 
 https://blog.minhazav.dev/research/html5-qrcode
