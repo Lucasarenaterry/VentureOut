@@ -4,7 +4,9 @@ Database:
 
 Hosted by heroku as it has a addon including PostgreSQL and PostGIS
 
+Backend:
 Web app powered by Golang (Go) and uses gin-gonic framework.
+Database conneting and querying done using Go-SQL-Driver (github.com/go-sql-driver/mysql)
 
 
 Frontend:
