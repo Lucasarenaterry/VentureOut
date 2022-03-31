@@ -349,7 +349,7 @@ func main() {
 			}
 			
 			
-			rowss, err := db.Query("SELECT DISTINCT eventtype FROM events")
+			rowss, err := db.Query("SELECT DISTINCT eventtype FROM events ORDER BY eventtype ASC")
 				if err != nil {
 					c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
@@ -511,7 +511,7 @@ func main() {
 				fmt.Printf("%v", featureCollection)
 			}
 			
-			rowss, err := db.Query("SELECT DISTINCT eventtype FROM events")
+			rowss, err := db.Query("SELECT DISTINCT eventtype FROM events ORDER BY eventtype ASC")
 				if err != nil {
 					c.String(http.StatusInternalServerError,
 					fmt.Sprintf("Error reading Events: %q", err))
