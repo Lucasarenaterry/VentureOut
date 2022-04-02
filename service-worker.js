@@ -1,6 +1,5 @@
 console.log('service worker getting out of bed and having a coffee');
 
-
 self.addEventListener("install", function(event) {
    self.skipWaiting();
 
@@ -11,19 +10,6 @@ self.addEventListener("install", function(event) {
       })
    );
 });
-
-// self.addEventListener('activate', function(event) {
-//     console.log('Service worker has been activated');
-//     // Deletes old caches
-//     event.waitUntil(
-//         caches.keys().then( function(keys) {
-//             return Promise.all(keys
-//                 .filter(key => key !== CacheName)
-//                 .map(key => caches.delete(key))
-//             )
-//         })
-//     )
-// });
 
 self.addEventListener('activate', (event) => {
     // Specify allowed cache keys
@@ -39,7 +25,6 @@ self.addEventListener('activate', (event) => {
       }));
     }));
   });
-
 
 self.addEventListener('fetch', function(event) {
     // console.log('service worker fetch event', event);
