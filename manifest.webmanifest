@@ -7,7 +7,7 @@
     "scope": "/",
     "theme_color": "#2268CA",
     "description": "Outdoor activities and events PWA application",
-    "start_url": "https://ventureout.herokuapp.com/",
+    "start_url": "https://ventureout.herokuapp.com/home",
     "icons": [
         {
           "src": "/static/img/maskable_icon_x72.png",
