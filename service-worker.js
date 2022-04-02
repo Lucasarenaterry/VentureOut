@@ -27,7 +27,7 @@ self.addEventListener("install", function(event) {
 
 self.addEventListener('activate', (event) => {
     // Specify allowed cache keys
-    const cacheAllowList = ['VentureOut-cache-v12'];
+    const cacheAllowList = ['VentureOut-cache-v13'];
   
     // Get all the currently active `Cache` instances.
     event.waitUntil(caches.keys().then((keys) => {
@@ -53,7 +53,7 @@ self.addEventListener('fetch', function(event) {
     );
 });
 
-const CacheName = 'VentureOut-cache-v12';
+const CacheName = 'VentureOut-cache-v13';
 const CacheUrls = [
     './',
     '/static/css/main.css', 
@@ -66,6 +66,7 @@ const CacheUrls = [
     '/static/img/favicon-16x16.png',
     '/static/img/favicon-32x32.png',
     '/static/img/logo.png',
+    '/static/img/navlogo.png',
     '/static/img/maskable_icon_x72.png',
     '/static/img/maskable_icon_x96.png',
     '/static/img/maskable_icon_x128.png',
