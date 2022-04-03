@@ -153,46 +153,20 @@
             };
 
         //checks to see the users browers supports geolocation
-        // const getCurrentPosition = ({ onSuccess, onError = () => { } }) => {
-        //     if ('geolocation' in navigator === false) {
-        //         return onError(new Error('Geolocation is not supported by your browser, try again on a different browser.'));
-        //     }
-
-        //     return navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout:10000});
-        //     };
-
-        // const watchPosition = ({ onSuccess, onError = () => { } }) => {
-        //     if ('geolocation' in navigator === false) {
-        //         return onError(new Error('Geolocation is not supported by your browser, try again on a different browser.'));
-        //     }
-        //         return navigator.geolocation.watchPosition(onSuccess, onError, {enableHighAccuracy: true, timeout: 10000, maximumAge: 0});
-        // };
-
-
         const getCurrentPosition = ({ onSuccess, onError = () => { } }) => {
-            if ('geolocation' in navigator)
-                {
-                    return navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout:10000});
-                } else {
-                    return onError(new Error('Geolocation is not supported by your browser, try again on a different browser.'));
-                }
+            if ('geolocation' in navigator === false) {
+                return onError(new Error('Geolocation is not supported by your browser, try again on a different browser.'));
+            }
+
+            return navigator.geolocation.getCurrentPosition(onSuccess, onError, {timeout:10000});
             };
 
-        watchOptions = {
-            enableHighAccuracy: true, 
-            timeout: 10000, 
-            maximumAge: 0
+        const trackLocation = ({ onSuccess, onError = () => { } }) => {
+            if ('geolocation' in navigator === false) {
+                return onError(new Error('Geolocation is not supported by your browser, try again on a different browser.'));
+            }
+                return navigator.geolocation.watchPosition(onSuccess, onError, {enableHighAccuracy: true, timeout: 10000, maximumAge: 0});
         };
-
-        const watchPosition = ({ onSuccess, onError = () => { } }) => {
-            if ('geolocation' in navigator)
-                {
-                    return navigator.geolocation.watchPosition(onSuccess, onError, watchOptions);
-                } else {
-                    return onError(new Error('Geolocation is not supported by your browser, try again on a different browser.'));
-                }
-        };
-
 
         function getLocation(){
                 if (navigator.geolocation)
@@ -554,7 +528,7 @@
             });
 
             
-            watchPosition({
+            trackLocation({
                 onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
                 if(trackinglocation) {
