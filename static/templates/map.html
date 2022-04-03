@@ -541,7 +541,7 @@
             })
 
             getCurrentPosition({
-                onSuccess: ({ coordinates: { latitude: lat, longitude: lng } }) => {
+                onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
                 userLatitude = lat;
                 userLongitude = lng;
@@ -555,7 +555,7 @@
 
             
             watchPosition({
-                onSuccess: ({ coordinates: { latitude: lat, longitude: lng } }) => {
+                onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
                 marker.setPosition({ lat, lng });
                 if(trackinglocation) {
                 map.panTo({ lat, lng });
