@@ -12,12 +12,12 @@ self.addEventListener("install", function(event) {
 });
 
 self.addEventListener('activate', (event) => {
-    // Specify allowed cache keys
+    // newest version of cache and only one that is allowed
     const cacheAllowList = ['VentureOut-cache-v13'];
   
-    // Get all the currently active `Cache` instances.
+    // Get all the caches that a currently active.
     event.waitUntil(caches.keys().then((keys) => {
-      // Delete all caches that aren't in the allow list:
+      // Delete all caches that are not the allowed cache
       return Promise.all(keys.map((key) => {
         if (!cacheAllowList.includes(key)) {
           return caches.delete(key);
