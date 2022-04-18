@@ -2,9 +2,7 @@
 
 By Lucas Arena Terry
 
-4th Year Computer Scince 
-
-Heriot-Watt University
+4th Year Computer Scince at Heriot-Watt University
 
 Link to application: https://ventureout.herokuapp.com
 
