@@ -63,7 +63,7 @@
       var events = '{{ .events }}';
       console.log(events.length);
       if (events.length === 2) {
-        document.getElementById("nodata").innerHTML = "No events in the date range selected";
+        document.getElementById("nodata").innerHTML = "No events in the date range selected"; //Tells the user no events have been found
       };
         
       if ('serviceWorker' in navigator) { //checks if service worker is supported on the browser

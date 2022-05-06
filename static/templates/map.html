@@ -5,6 +5,7 @@
 
   <body>
     {{template "navbar.html"}}
+    <!-- The div below is the notification which appear when a user is inside a Geofence of an event-->
     <div class="toast" autohide="false" style="z-index: 99 !important; position:absolute !important; margin: 0 auto; left: 0; right: 0; margin-top: 8px;" id="notify" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-body">
             <p>Event NearBy: <a id="eventtitle"></a></p>
@@ -15,10 +16,12 @@
         </div>
       </div>
 
+    <!-- Div where the map will be displayed -->
     <div id="map"></div>
 
     {{template "navbarmobile.html"}}
    
+    <!-- This is the modal which gives the user the option to filter events -->
     <div
     class="modal fade"
     id="filtermodal"
@@ -34,9 +37,11 @@
             <button type="button" class="btn-close" onclick="$('#filtermodal').modal('hide');" aria-label="Close"></button>
         </div>
         <div class="modal-body" style="height: 125px;">
+            <!-- The Form is of Post method which will send the picked filters to the backend and filter the events on the map -->
             <form method="POST" action="/map">
                 <div class="container d-flex align-items-center justify-content-center">
             <select class="selectpicker" aria-label="size 3 select example" name="filter" multiple data-live-search="true">
+                <!-- The event types are gathered from the DB such that they are dynamic and will update if new event types are added -->
                 {{ range .filterTypes }}
                 <option value="{{.Eventtype}}">{{.Eventtype}}</option>
                 {{ end }}
@@ -59,19 +64,18 @@
     
     {{template "scripts.html"}}
     <script>
+        //used to select the option on the dropdown filtering 
         $('select').selectpicker();
-        // var filterTypes = '{{.filterTypes}}';
-        // console.log(filterTypes);
 
         var featureCollection = '{{.featureCollection}}';
         var geofencediscovered = 0;
-        //console.log(featureCollection);
         
         let map;
 
         //initiate getting user location
         getLocation();
 
+        //Event info that has been found from the Geofence is passed in to be displayed in the notification
         function notifyUser (data) {
             $('#notify').toast('hide');
             var event_title = data.Eventtittel;
@@ -85,6 +89,7 @@
             $('#notify').toast('show');
         }
 
+        //Event info selected by the user is passed from the GeoJson to the modal and displayed
         function infomodal() {
             $('#infomodal').modal('hide');
            
@@ -128,6 +133,7 @@
             }
         };
 
+        //shows the error to the user as a pop up
         function showError(error)
             {
             switch(error.code) 
@@ -183,8 +189,6 @@
         function Geofence(position) {
             lat=position.coords.latitude;
             lng=position.coords.longitude;
-            // lat=55.9321374;
-            // lng=-3.2100789;
             
             $.ajax({
                             url: "/ingeofence/" + lat + "/" + lng + "/" + geofencediscovered,
@@ -197,10 +201,7 @@
                            var data = $.parseJSON(jsondata);
                            geofencedata = data;
                            geofencediscovered = data.Id;
-                           //console.log(geofencediscovered);
-                        //    console.log("geo");
-                        //    console.log(geofencedata);
-                        //    console.log(data);
+
                            if (data == "null"){
                             console.log("user is not in Geofence");
                            } else {
@@ -508,10 +509,6 @@
                 var bounds = map.getBounds();
                 NE = bounds.getNorthEast();
                 SW = bounds.getSouthWest();
-                // console.log("bounds" + NE.lat() + "," + NE.lng() + "SW " + SW.lat() + "," + SW.lng());
-                // var d1 = new Date();
-
-                // console.log(d1.toUTCString())
             })
 
             getCurrentPosition({
