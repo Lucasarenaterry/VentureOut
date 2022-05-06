@@ -6,8 +6,7 @@
   <body>
     {{template "navbar.html"}}
     <div class="d-flex align-items-center justify-content-center" style="width: 50%; margin:0 auto; padding-top: 20px;">
-    <!-- <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" action="/calender"> -->
-      <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" action="/calender">
+      <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" action="/calender">   <!-- Form to filter events by date range -->
         <div class="col-12">
           <div class="form-outline">
             <input type="date" id="form8Example3" name="datefrom" class="form-control" required>
@@ -27,9 +26,9 @@
         </div>
       </form>
     </div>
-    <p id="nodata" class="d-flex align-items-center justify-content-center "></p>
+    <p id="nodata" class="d-flex align-items-center justify-content-center "></p>   <!-- If not events are found the user is notified -->
     <div class="row row-cols-1 row-cols-md-3 g-4 d-flex align-items-stretch justify-content-center" style="margin: 0 auto;">
-      {{ range .events }}
+      {{ range .events }}   <!-- loops through all events found and they are displayed -->
       <div class="col" style="width: 400px;">
         <div class="card" style="height: 646px;">
           <img src="{{.Image}}" onerror="this.onerror;this.src='/static/img/logo.png'" style="height: 250px;" class="card-img-top"/>
@@ -66,7 +65,6 @@
       if (events.length === 2) {
         document.getElementById("nodata").innerHTML = "No events in the date range selected";
       };
-      // console.log(events);
         
       if ('serviceWorker' in navigator) { //checks if service worker is supported on the browser
           navigator.serviceWorker.register('service-worker.js', {scope: '/'})
@@ -78,7 +76,8 @@
           });
       }
 
-      function OnMap(Id) {
+      //This function redirects the user to the map page and only shows them the selected event
+      function OnMap(Id) { 
         dataUrl = "/map" + "?OnMapId=" + Id; //example /map?id=2&VentureOut
         console.log(dataUrl);
         window.location.href = dataUrl;
